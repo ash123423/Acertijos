@@ -39,32 +39,40 @@
             background-color: #777; /* Fondo del botón al pasar el mouse */
         }
         .invisible {
-            position: absolute;
-            left: 200px; /* 200 píxeles a la izquierda */
-            top: 200px; /* 200 píxeles abajo */
-            opacity: 1; /* Visible */
-            pointer-events: auto; /* Permite interactuar */
+            position: relative;
+            top: 100px; /* 100 píxeles debajo del botón visible */
+            background-color: transparent; /* Fondo transparente */
+            color: transparent; /* Texto invisible */
+            border: none; /* Sin borde */
+            cursor: pointer; /* Cursor activado */
+            width: 200px; /* Ancho del área clickeable */
+            height: 50px; /* Alto del área clickeable */
+        }
+        .invisible:hover {
+            border: 1px solid #777; /* Borde para visualizar temporalmente mientras pruebas */
         }
     </style>
     <script>
         function verificarRespuesta() {
-            var respuesta = document.getElementById("respuesta").value.toLowerCase();
-            if (respuesta === "ak29skdmx") {
+            var respuesta = document.getElementById("respuesta").value;
+            if (respuesta === "06012701") {
                 window.location.href = "https://www.google.com"; // Llevar a Google
             } else {
-                alert("Respuesta incorrecta. Intenta de nuevo.");
+                alert("Contraseña incorrecta. Intenta de nuevo.");
             }
         }
 
         function mostrarContraseña() {
-            alert("Esta palabra es: AK29SKDMX"); // Mostrar la contraseña
+            alert("La contraseña es: 06012701");
         }
     </script>
 </head>
 <body>
     <h1>Mueve el cursor</h1>
-    <input type="text" id="respuesta" placeholder="Escribe tu respuesta aquí">
-    <button onclick="verificarRespuesta()">Confirmar</button>
-    <button class="invisible" style="background-color: #444; color: #fff;" onclick="mostrarContraseña()">Confirmar Invisible</button> <!-- Botón visible -->
+    <input type="text" id="respuesta" placeholder="Contraseña">
+    <button onclick="verificarRespuesta()">Continuar</button>
+
+    <!-- Botón invisible -->
+    <button class="invisible" onclick="mostrarContraseña()">Botón invisible</button>
 </body>
 </html>
