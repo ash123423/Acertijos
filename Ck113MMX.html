@@ -42,9 +42,9 @@
             position: absolute;
             left: 200px; /* 200 píxeles a la izquierda */
             top: 200px; /* 200 píxeles abajo */
-            background-color: #000; /* Fondo negro para que no se vea */
+            background-color: rgba(0, 0, 0, 0); /* Fondo transparente */
             border: 1px solid transparent; /* Sin borde visible */
-            opacity: 0; /* Invisible */
+            opacity: 0.01; /* Muy poco visible, pero detecta el clic */
             pointer-events: auto; /* Permite hacer clic en el botón */
             width: 100px; /* Ancho del botón */
             height: 50px; /* Alto del botón */
@@ -61,7 +61,7 @@
         }
 
         function mostrarContraseña() {
-            alert("La contraseña es: AK29SKDMX"); // Mostrar la contraseña
+            alert("La contraseña es: 06012701"); // Mostrar la contraseña
         }
     </script>
 </head>
