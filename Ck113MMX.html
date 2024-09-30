@@ -42,8 +42,12 @@
             position: absolute;
             left: 200px; /* 200 píxeles a la izquierda */
             top: 200px; /* 200 píxeles abajo */
-            visibility: hidden; /* Para que no sea visible pero ocupe espacio */
-            /* Si deseas que no ocupe espacio en la página, usa 'display: none;' */
+            background-color: #000; /* Fondo negro para que no se vea */
+            border: 1px solid transparent; /* Sin borde visible */
+            opacity: 0; /* Invisible */
+            pointer-events: auto; /* Permite hacer clic en el botón */
+            width: 100px; /* Ancho del botón */
+            height: 50px; /* Alto del botón */
         }
     </style>
     <script>
