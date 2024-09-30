@@ -42,18 +42,14 @@
             position: absolute;
             left: 200px; /* 200 píxeles a la izquierda */
             top: 200px; /* 200 píxeles abajo */
-            background-color: rgba(0, 0, 0, 0); /* Fondo transparente */
-            border: 1px solid transparent; /* Sin borde visible */
-            opacity: 99.01; /* Muy poco visible, pero detecta el clic */
-            pointer-events: auto; /* Permite hacer clic en el botón */
-            width: 100px; /* Ancho del botón */
-            height: 50px; /* Alto del botón */
+            opacity: 1; /* Visible */
+            pointer-events: auto; /* Permite interactuar */
         }
     </style>
     <script>
         function verificarRespuesta() {
             var respuesta = document.getElementById("respuesta").value.toLowerCase();
-            if (respuesta === "06012701") {
+            if (respuesta === "ak29skdmx") {
                 window.location.href = "https://www.google.com"; // Llevar a Google
             } else {
                 alert("Respuesta incorrecta. Intenta de nuevo.");
@@ -61,14 +57,14 @@
         }
 
         function mostrarContraseña() {
-            alert("La contraseña es: 06012701"); // Mostrar la contraseña
+            alert("Esta palabra es: AK29SKDMX"); // Mostrar la contraseña
         }
     </script>
 </head>
 <body>
     <h1>Mueve el cursor</h1>
-    <input type="text" id="respuesta" placeholder="Contraseña">
+    <input type="text" id="respuesta" placeholder="Escribe tu respuesta aquí">
     <button onclick="verificarRespuesta()">Confirmar</button>
-    <button class="invisible" onclick="mostrarContraseña()">Confirmar Invisible</button> <!-- Botón invisible -->
+    <button class="invisible" onclick="mostrarContraseña()">Confirmar Invisible</button> <!-- Botón visible -->
 </body>
 </html>
