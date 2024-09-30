@@ -1,65 +1,61 @@
-function doGet() {
-    return HtmlService.createHtmlOutput(`
-    <!DOCTYPE html>
-    <html lang="es">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Acertijo 1</title>
-        <style>
-            body {
-                background-color: #000; /* Fondo negro */
-                color: #fff; /* Texto blanco */
-                font-family: 'Courier New', monospace; /* Fuente retro */
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                height: 100vh;
-                margin: 0;
-                flex-direction: column;
-                text-align: center; /* Centrar texto */
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acertijo 1</title>
+    <style>
+        body {
+            background-color: #000; /* Fondo negro */
+            color: #fff; /* Texto blanco */
+            font-family: 'Courier New', monospace; /* Fuente retro */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            flex-direction: column;
+            text-align: center; /* Centrar texto */
+        }
+        input[type="text"] {
+            padding: 10px;
+            font-size: 18px;
+            border: 1px solid #fff; /* Borde blanco */
+            background-color: #333; /* Fondo gris oscuro */
+            color: #fff; /* Texto blanco */
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 15px;
+            font-size: 18px;
+            margin-top: 10px;
+            cursor: pointer;
+            background-color: #555; /* Fondo del botón */
+            color: #fff; /* Texto blanco */
+            border: none;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #777; /* Fondo del botón al pasar el mouse */
+        }
+    </style>
+    <script>
+        function verificarRespuesta() {
+            var respuesta = document.getElementById("respuesta").value.toLowerCase();
+            if (respuesta === "062701101502<3") {
+                window.location.href = "https://drive.google.com/file/d/1dw8bgRaFssJpCo_8M59THuc5xy8J7ObZ/view?usp=drive_link"; // Enlace del QR
+            } else if (respuesta === "24112023") {
+                window.location.href = "https://ash123423.github.io/Acertijos/acortador.html"; // Enlace del siguiente acertijo
+            } else {
+                alert("Respuesta incorrecta. Intenta de nuevo.");
             }
-            input[type="text"] {
-                padding: 10px;
-                font-size: 18px;
-                border: 1px solid #fff; /* Borde blanco */
-                background-color: #333; /* Fondo gris oscuro */
-                color: #fff; /* Texto blanco */
-                border-radius: 5px;
-            }
-            button {
-                padding: 10px 15px;
-                font-size: 18px;
-                margin-top: 10px;
-                cursor: pointer;
-                background-color: #555; /* Fondo del botón */
-                color: #fff; /* Texto blanco */
-                border: none;
-                border-radius: 5px;
-            }
-            button:hover {
-                background-color: #777; /* Fondo del botón al pasar el mouse */
-            }
-        </style>
-        <script>
-            function verificarRespuesta() {
-                var respuesta = document.getElementById("respuesta").value.toLowerCase();
-                if (respuesta === "062701101502<3") {
-                    window.location.href = "https://drive.google.com/file/d/1dw8bgRaFssJpCo_8M59THuc5xy8J7ObZ/view?usp=drive_link"; // Enlace del QR
-                } else if (respuesta === "24112023") {
-                    window.location.href = "https://ash123423.github.io/Acertijos/acortador.html"; // Enlace del siguiente acertijo
-                } else {
-                    alert("Respuesta incorrecta. Intenta de nuevo.");
-                }
-            }
-        </script>
-    </head>
-    <body>
-        <h1>FECHA COMPLETA</h1>
-        <p>¿En qué fecha nos conocimos?</p>
-        <input type="text" id="respuesta" placeholder="Escribe tu respuesta aquí">
-        <button onclick="verificarRespuesta()">Confirmar</button>
-    </body>
-    </html>
-    `);
-}
+        }
+    </script>
+</head>
+<body>
+    <h1>FECHA COMPLETA</h1>
+    <p>¿En qué fecha nos conocimos?</p>
+    <input type="text" id="respuesta" placeholder="Escribe tu respuesta aquí">
+    <button onclick="verificarRespuesta()">Confirmar</button>
+</body>
+</html>
