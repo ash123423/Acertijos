@@ -6,24 +6,23 @@
     <title>Ck113MMX</title>
     <style>
         body {
-            background-color: #000;
-            color: white;
-            font-family: Arial, sans-serif;
-            text-align: center;
-            margin: 0;
-            padding: 0;
-            height: 100vh;
+            background-color: #000; /* Fondo negro */
+            color: #fff; /* Texto blanco */
+            font-family: 'Courier New', monospace; /* Fuente retro */
             display: flex;
             justify-content: center;
             align-items: center;
+            height: 100vh;
+            margin: 0;
             flex-direction: column;
+            text-align: center; /* Centrar texto */
         }
         input[type="text"] {
             padding: 10px;
             font-size: 18px;
-            border: 1px solid #fff;
-            background-color: #333;
-            color: #fff;
+            border: 1px solid #fff; /* Borde blanco */
+            background-color: #333; /* Fondo gris oscuro */
+            color: #fff; /* Texto blanco */
             border-radius: 5px;
         }
         button {
@@ -31,33 +30,41 @@
             font-size: 18px;
             margin-top: 10px;
             cursor: pointer;
-            background-color: #555;
-            color: #fff;
+            background-color: #555; /* Fondo del botón */
+            color: #fff; /* Texto blanco */
             border: none;
             border-radius: 5px;
         }
         button:hover {
-            background-color: #777;
+            background-color: #777; /* Fondo del botón al pasar el mouse */
         }
-        #invisibleButton {
+        .invisible {
             position: absolute;
-            left: calc(50% - 100px); /* 200px a la izquierda del botón de confirmar */
-            top: calc(50% + 200px); /* 200px debajo del botón de confirmar */
-            width: 200px;
-            height: 200px;
+            left: 500px; /* 500 píxeles a la derecha */
+            top: 750px; /* 750 píxeles abajo */
             opacity: 0; /* Invisible */
+            pointer-events: none; /* No se puede interactuar */
         }
     </style>
     <script>
+        function verificarRespuesta() {
+            var respuesta = document.getElementById("respuesta").value.toLowerCase();
+            if (respuesta === "ak29skdmx") {
+                window.location.href = "https://www.google.com"; // Llevar a Google
+            } else {
+                alert("Respuesta incorrecta. Intenta de nuevo.");
+            }
+        }
+
         function mostrarContraseña() {
-            alert("AK29SKDMX"); // Muestra la contraseña
+            alert("Esta palabra es: AK29SKDMX"); // Mostrar la contraseña
         }
     </script>
 </head>
 <body>
     <h1>Mueve el cursor</h1>
     <input type="text" id="respuesta" placeholder="Escribe tu respuesta aquí">
-    <button onclick="mostrarContraseña()">Confirmar</button>
-    <button id="invisibleButton" onclick="mostrarContraseña()"></button> <!-- Botón invisible -->
+    <button onclick="verificarRespuesta()">Confirmar</button>
+    <button class="invisible" onclick="mostrarContraseña()">Confirmar Invisible</button> <!-- Botón invisible -->
 </body>
 </html>
