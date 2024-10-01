@@ -71,9 +71,9 @@
         let intervalo;
 
         // Sonidos
-        let beepSonido = new Audio("https://www.soundjay.com/button/beep-07.wav");
-        let beepError = new Audio("https://www.soundjay.com/button/beep-10.wav");
-        let beepCorrecto = new Audio("https://www.soundjay.com/button/beep-08.wav");
+        let beepSonido = new Audio("https://freesound.org/data/previews/347/347176_4939433-lq.mp3");
+        let beepError = new Audio("https://freesound.org/data/previews/722/722377_2407430-lq.mp3");
+        let beepCorrecto = new Audio("https://freesound.org/data/previews/253/253887_324634-lq.mp3");
 
         // Habilitar los sonidos al interactuar con la página
         function habilitarSonidos() {
@@ -99,43 +99,41 @@
             numeroCorrecto = numerosAleatorios[Math.floor(Math.random() * numerosAleatorios.length)];
             numerosAleatorios.sort(() => Math.random() - 0.5); // Mezclar los números
             document.getElementById("numeros").innerText = numerosAleatorios.join(" ");
-            beepSonido.play(); // Reproducir sonido al cambiar los números
+            beepSonido.play(); // Reproducir beep al cambiar los números
         }
 
-        // Verificar si el número ingresado es el correcto
-        function verificarNumero() {
-            let respuesta = document.getElementById("codigo").value;
+        // Verifica si la respuesta es correcta
+        function verificarRespuesta() {
+            const respuesta = document.getElementById("respuesta").value;
             if (respuesta === numeroCorrecto) {
-                document.getElementById("mensaje-error").style.display = "none";
-                document.getElementById("mensaje-exito").innerText = "Felicidades, toma tus siguientes números: 00110000 00110001";
-                document.getElementById("boton-continuar").style.display = "block"; // Mostrar el botón de continuar
-                beepCorrecto.play(); // Reproducir sonido correcto
+                document.getElementById("mensaje-exito").innerText = "Felicidades toma tus siguientes numeros 00110000 00110001 y para entrar a la siguiente pagina dale al botón de continuar";
+                beepCorrecto.play(); // Sonido correcto
+                document.getElementById("boton-continuar").style.display = "block";
+                document.getElementById("mensaje-error").innerText = "";
             } else {
                 document.getElementById("mensaje-error").innerText = "Combinación incorrecta";
+                beepError.play(); // Sonido incorrecto
                 document.getElementById("mensaje-exito").innerText = "";
-                beepError.play(); // Reproducir sonido incorrecto
+                document.getElementById("boton-continuar").style.display = "none";
             }
         }
 
-        // Iniciar la generación de números al cargar la página
-        window.onload = function() {
+        // Iniciar el ciclo de números al cargar la página
+        window.onload = function () {
             generarNumeros();
-            intervalo = setInterval(generarNumeros, 5000); // Cambiar los números cada 5 segundos
-        }
-
-        // Agregar listener para habilitar los sonidos cuando el usuario haga clic
-        document.addEventListener('click', habilitarSonidos);
+            intervalo = setInterval(generarNumeros, 5000); // Cambiar números cada 5 segundos
+            document.addEventListener('click', habilitarSonidos); // Activar sonidos en primer clic
+        };
     </script>
 </head>
 <body>
     <div id="pantalla">
-        <p id="numeros">Cargando números...</p>
-        <p>Selecciona el número correcto ingresándolo en el campo de texto.</p>
-        <input type="text" id="codigo" placeholder="Ingresa el número">
-        <button onclick="verificarNumero()">Verificar</button>
-        <p id="mensaje-error"></p>
-        <p id="mensaje-exito"></p>
-        <button id="boton-continuar" onclick="window.location.href='https://ash123423.github.io/Acertijos/acertijo_5.html'">Continuar</button>
+        <div id="numeros">0000 0000 0000 0000 0000</div>
+        <input type="text" id="respuesta" placeholder="Ingresa la combinación correcta">
+        <button onclick="verificarRespuesta()">Verificar</button>
+        <div id="mensaje-error"></div>
+        <div id="mensaje-exito"></div>
+        <button id="boton-continuar" onclick="window.location.href='https://tusiguientepagina.html'">Continuar</button>
     </div>
 </body>
 </html>
