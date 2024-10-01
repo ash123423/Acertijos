@@ -58,9 +58,6 @@
         .button:hover {
             background-color: #45a049;
         }
-        #cmd {
-            display: none;
-        }
     </style>
 </head>
 <body>
@@ -86,6 +83,14 @@
         </div>
     </div>
 
+    <div id="lock" class="window">
+        <div class="header">Candado</div>
+        <div class="content">
+            <input type="text" id="lock-password" placeholder="Escribe la contraseña">
+            <button class="button" id="lock-access-button">Acceder</button>
+        </div>
+    </div>
+
     <div id="cmd" class="window">
         <div class="header">Consola</div>
         <div class="content">
@@ -101,6 +106,7 @@
 
         const notepad = document.getElementById('notepad');
         const recycleBin = document.getElementById('recycle-bin');
+        const lock = document.getElementById('lock');
         const cmd = document.getElementById('cmd');
 
         // Abrir Bloc de Notas
@@ -117,13 +123,8 @@
 
         // Abrir Candado
         lockButton.onclick = () => {
-            const password = prompt('Introduce la contraseña del candado:');
-            if (password === '27011502') {
-                cmd.style.display = 'block';
-                moveWindow(cmd);
-            } else {
-                alert('Contraseña incorrecta');
-            }
+            lock.style.display = 'block';
+            moveWindow(lock);
         };
 
         // Acceder a Papelera de Reciclaje
@@ -131,12 +132,21 @@
             const passwordInput = document.getElementById('recycle-password').value;
             if (passwordInput === 'miniñabonita') {
                 recycleBin.style.display = 'none';
-                alert('Acceso concedido a la Papelera de Reciclaje.');
-                // Aquí podrías abrir un archivo o mostrar un mensaje adicional.
+                openNotepadMessage("La contraseña del candado es la misma del programa");
+            } else {
+                document.getElementById('recycle-message').innerText = 'Contraseña incorrecta.';
+            }
+        };
+
+        // Acceder a Candado
+        document.getElementById('lock-access-button').onclick = () => {
+            const lockPasswordInput = document.getElementById('lock-password').value;
+            if (lockPasswordInput === '27011502') {
+                lock.style.display = 'none';
                 cmd.style.display = 'block';
                 moveWindow(cmd);
             } else {
-                document.getElementById('recycle-message').innerText = 'Contraseña incorrecta.';
+                alert('Contraseña incorrecta');
             }
         };
 
@@ -170,6 +180,27 @@
             windowElement.onmouseleave = () => {
                 isMoving = false;
             };
+        }
+
+        function openNotepadMessage(message) {
+            const newNotepad = document.createElement('div');
+            newNotepad.className = 'window';
+            newNotepad.style.display = 'block';
+            newNotepad.style.left = '100px'; // Puedes ajustar la posición
+            newNotepad.style.top = '100px';  // Puedes ajustar la posición
+
+            const header = document.createElement('div');
+            header.className = 'header';
+            header.innerText = 'Bloc de Notas';
+
+            const content = document.createElement('div');
+            content.className = 'content';
+            content.innerText = message;
+
+            newNotepad.appendChild(header);
+            newNotepad.appendChild(content);
+            document.body.appendChild(newNotepad);
+            moveWindow(newNotepad);
         }
     </script>
 </body>
