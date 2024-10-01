@@ -3,143 +3,106 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Habitación</title>
+    <title>Juego de Puertas</title>
     <style>
         body {
-            background-color: black; /* Fondo negro */
-            color: white; /* Texto blanco */
-            font-family: 'Courier New', monospace; /* Fuente tipo pixel */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh; /* Altura de la ventana */
-            margin: 0; /* Sin márgenes */
-            position: relative;
-            overflow: hidden; /* Evitar el desplazamiento */
-        }
-        .habitacion {
-            position: relative;
-            width: 400px;
-            height: 300px;
-            border: 2px solid white; /* Borde de la habitación */
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden; /* Para evitar que los elementos salgan de la habitación */
-        }
-        .cama {
-            width: 100px;
-            height: 50px;
-            background-color: white;
-            position: absolute;
-            bottom: 20px;
-            left: 50px;
-        }
-        .reloj {
-            position: absolute;
-            top: 10px;
-            right: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            font-size: 50px; /* Tamaño grande para el emoji */
-        }
-        .caja-fuerte {
-            position: absolute;
-            top: 50px;
-            left: 160px;
-            font-size: 50px; /* Tamaño grande para el emoji */
-            cursor: pointer;
-        }
-        .caja-fuerte-activada {
-            display: none; /* Oculta la caja fuerte inicialmente */
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-        .nota {
-            display: none; /* Oculta la nota inicialmente */
-            background-color: white;
-            color: black;
-            padding: 10px;
-            position: absolute;
-            top: 150px;
-            left: 100px;
-            border: 2px solid black;
-        }
-        .cerrar {
-            position: absolute;
-            top: 5px;
-            right: 5px;
-            cursor: pointer;
-            font-size: 18px;
-            color: black;
-            background-color: white;
-            border-radius: 50%;
-        }
-        .boton-confirmar {
-            margin-top: 10px;
-            cursor: pointer;
             background-color: black;
             color: white;
-            border: none;
-            padding: 5px 10px;
-            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
         }
-        .boton-confirmar:hover {
-            background-color: #444;
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        .doors {
+            display: flex;
+            justify-content: space-around;
+            width: 80%;
+        }
+
+        .door {
+            width: 100px;
+            height: 200px;
+            background-color: #ccc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 16px;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .door.correct {
+            background-color: green;
+        }
+
+        .door::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 10px;
+            height: 100px;
+            background-color: white;
+        }
+
+        .door.open {
+            background-color: black;
+        }
+
+        .door-message {
+            position: absolute;
+            top: 220px;
+            text-align: center;
+            font-size: 20px;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 10px 15px;
+            background-color: white;
+            color: black;
+            border: none;
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
-    <div class="habitacion">
-        <div class="reloj">
-            🕚<br>
-            11:45 pm
-        </div>
-        <div class="caja-fuerte" onclick="abrirCajaFuerte()">
-            📦
-        </div>
-        <div class="cama">
-            <div class="papel" onclick="verMensaje()">
-                📄
-            </div>
-        </div>
+    <h1>Elige una Puerta</h1>
+    <div class="doors">
+        <div class="door" id="door1" onclick="openDoor(1)">Puerta 1</div>
+        <div class="door" id="door2" onclick="openDoor(2)">Puerta 2</div>
+        <div class="door" id="door3" onclick="openDoor(3)">Puerta 3</div>
     </div>
+    <div id="door-message" class="door-message"></div>
+    <button onclick="resetGame()">Reiniciar</button>
 
     <script>
-        function verMensaje() {
-            alert("HORA MILITAR");
-        }
+        let correctDoor = Math.floor(Math.random() * 3) + 1;
 
-        function abrirCajaFuerte() {
-            document.querySelector('.caja-fuerte').style.display = 'none'; // Ocultar la caja fuerte
-            const cajaFuerteActivada = document.createElement('div');
-            cajaFuerteActivada.className = 'caja-fuerte-activada';
-            cajaFuerteActivada.innerHTML = `
-                📦<br>
-                <input type="text" id="codigo" placeholder="Ingresa el código">
-                <button class="boton-confirmar" onclick="verificarCodigo()">✔️</button>
-                <button class="cerrar" onclick="cerrarCajaFuerte()">❌</button>
-            `;
-            document.querySelector('.habitacion').appendChild(cajaFuerteActivada);
-        }
-
-        function cerrarCajaFuerte() {
-            document.querySelector('.caja-fuerte-activada').remove(); // Quitar la caja fuerte
-            document.querySelector('.caja-fuerte').style.display = 'block'; // Mostrar la caja fuerte nuevamente
-        }
-
-        function verificarCodigo() {
-            const codigo = document.getElementById('codigo').value;
-            if (codigo === '2345') {
-                alert("Puedes pasar a la siguiente página. Tus nuevas palabras son 00110001 00110101.");
-                // Aquí puedes redirigir a la siguiente página
-                window.location.href = "Acertijo_7-1902.html";
+        function openDoor(doorNumber) {
+            const messageElement = document.getElementById('door-message');
+            if (doorNumber === correctDoor) {
+                messageElement.innerText = "¡Correcta!";
+                document.getElementById(`door${doorNumber}`).classList.add("correct");
             } else {
-                alert("Código incorrecto. Inténtalo de nuevo.");
+                messageElement.innerText = "Incorrecta";
+                document.getElementById(`door${doorNumber}`).classList.add("open");
+                correctDoor = Math.floor(Math.random() * 3) + 1; // Cambia la puerta correcta
             }
+        }
+
+        function resetGame() {
+            document.querySelectorAll('.door').forEach(door => door.classList.remove('open', 'correct'));
+            document.getElementById('door-message').innerText = "";
+            correctDoor = Math.floor(Math.random() * 3) + 1;
         }
     </script>
 </body>
