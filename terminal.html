@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Terminal CMD</title>
+    <title>Python Terminal</title>
     <style>
         body {
             background-color: black;
@@ -52,10 +52,10 @@
 <body>
     <div class="terminal">
         <div class="output" id="output">
-            Bienvenido a la terminal. Escribe tu comando y presiona Enter.
+            >>> Bienvenida a la terminal este es tu ultimo acertijo.
         </div>
         <div class="input">
-            <input type="text" id="commandInput" placeholder="Escribe tu comando aquí..." onkeypress="checkEnter(event)">
+            <input type="text" id="commandInput" placeholder="Escribe tu código aquí..." onkeypress="checkEnter(event)">
         </div>
     </div>
 
@@ -71,14 +71,14 @@
             const output = document.getElementById('output');
 
             const command = commandInput.value;
-            output.innerHTML += '<br/>$ ' + command;
+            output.innerHTML += '<br/>>> ' + command;
 
-            // Ejecutar comando de print
-            if (command.startsWith('print(') && command.endsWith(')')) {
-                const content = command.slice(6, -1); // Extraer el contenido entre print() 
-                output.innerHTML += '<br/>' + content;
-            } else {
-                output.innerHTML += '<br/>Error: comando no reconocido';
+            // Ejecutar código de Python
+            try {
+                const result = eval(command); // Utiliza eval para ejecutar el código
+                output.innerHTML += '<br/>' + result;
+            } catch (error) {
+                output.innerHTML += '<br/>Error: ' + error.message;
             }
 
             // Limpiar el campo de entrada
