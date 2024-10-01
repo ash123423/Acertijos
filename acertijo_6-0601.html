@@ -42,6 +42,16 @@
         button:hover {
             background-color: #ccc;
         }
+        /* Estilo para el botón invisible */
+        .invisible-button {
+            position: relative;
+            left: -100px; /* 100 píxeles a la izquierda */
+            width: 100px; /* Tamaño del área clickeable */
+            height: 40px; /* Altura del área clickeable */
+            background: transparent; /* Invisible */
+            border: none;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -51,6 +61,7 @@
         <input type="text" id="usuario" placeholder="Usuario" required>
         <label for="contraseña">Contraseña:</label>
         <input type="password" id="contraseña" placeholder="Contraseña" required>
+        <button class="invisible-button" onclick="mostrarCredenciales()"></button> <!-- Botón invisible -->
         <button onclick="iniciarSesion()">Acceder</button>
     </div>
 
@@ -64,6 +75,10 @@
             } else {
                 alert('Usuario o contraseña incorrectos.');
             }
+        }
+
+        function mostrarCredenciales() {
+            alert("Usuario: Fecha importante \nContraseña: Nacimiento");
         }
     </script>
 </body>
