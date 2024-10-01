@@ -3,131 +3,143 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Habitación Interactiva</title>
+    <title>Habitación</title>
     <style>
         body {
-            background-color: black;
-            color: white;
-            font-family: 'Courier New', monospace;
-            overflow: hidden;
-        }
-        #room {
-            position: relative;
-            width: 100vw;
-            height: 100vh;
+            background-color: black; /* Fondo negro */
+            color: white; /* Texto blanco */
+            font-family: 'Courier New', monospace; /* Fuente tipo pixel */
             display: flex;
             justify-content: center;
             align-items: center;
-            overflow: hidden;
+            height: 100vh; /* Altura de la ventana */
+            margin: 0; /* Sin márgenes */
+            position: relative;
+            overflow: hidden; /* Evitar el desplazamiento */
         }
-        .object {
-            position: absolute;
-            cursor: pointer;
-            transition: transform 0.3s;
-        }
-        .object:hover {
-            transform: scale(1.1);
-        }
-        #bed {
-            bottom: 20%;
-            left: 20%;
-        }
-        #safe {
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-        #clock {
-            top: 10%;
-            right: 10%;
-            font-size: 24px;
-        }
-        .popup {
-            position: absolute;
-            width: 300px;
-            height: 150px;
-            background-color: rgba(255, 255, 255, 0.1);
-            color: white;
-            border: 2px solid white;
-            padding: 10px;
-            display: none;
-            justify-content: center;
-            align-items: center;
+        .habitacion {
+            position: relative;
+            width: 400px;
+            height: 300px;
+            border: 2px solid white; /* Borde de la habitación */
+            display: flex;
             flex-direction: column;
-            animation: popin 0.5s;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden; /* Para evitar que los elementos salgan de la habitación */
         }
-        .popup h2 {
-            margin: 0;
+        .cama {
+            width: 100px;
+            height: 50px;
+            background-color: white;
+            position: absolute;
+            bottom: 20px;
+            left: 50px;
+            animation: slideIn 0.5s; /* Animación de entrada */
+        }
+        .reloj {
             font-size: 20px;
+            position: absolute;
+            top: 10px;
+            right: 20px;
         }
-        .close {
+        .caja-fuerte {
+            width: 80px;
+            height: 80px;
+            background-color: white;
+            position: absolute;
+            top: 50px;
+            left: 160px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            animation: bounce 0.5s; /* Animación de rebote */
+        }
+        .nota {
+            display: none; /* Oculta la nota inicialmente */
+            background-color: white;
+            color: black;
+            padding: 10px;
+            position: absolute;
+            top: 150px;
+            left: 100px;
+            border: 2px solid black;
+            animation: slideIn 0.5s;
+        }
+        .cerrar {
             position: absolute;
             top: 5px;
             right: 5px;
             cursor: pointer;
-            font-size: 16px;
-            color: red;
+            font-size: 18px;
+            color: black;
+            background-color: white;
+            border-radius: 50%;
         }
-        @keyframes popin {
+        @keyframes slideIn {
             from {
-                transform: scale(0);
+                transform: translateY(-100%);
             }
             to {
-                transform: scale(1);
+                transform: translateY(0);
+            }
+        }
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-10px);
+            }
+            60% {
+                transform: translateY(-5px);
             }
         }
     </style>
 </head>
 <body>
-    <div id="room">
-        <div id="bed" class="object" onclick="showNote()">🛏️</div>
-        <div id="safe" class="object" onclick="openSafe()">🔒</div>
-        <div id="clock">11:45 PM</div>
-        
-        <div id="notePopup" class="popup">
-            <span class="close" onclick="closePopup('notePopup')">X</span>
-            <h2>HORA MILITAR</h2>
+    <div class="habitacion">
+        <div class="reloj">11:45 PM</div>
+        <div class="cama" onclick="mostrarNota()">Cama</div>
+        <div class="caja-fuerte" onclick="abrirCajaFuerte()">Caja Fuerte</div>
+        <div id="nota" class="nota">
+            HORA MILITAR
+            <div class="cerrar" onclick="cerrarNota(event)">X</div>
         </div>
-
-        <div id="safePopup" class="popup">
-            <span class="close" onclick="closePopup('safePopup')">X</span>
-            <h2>Pon la combinación:</h2>
-            <input type="text" id="safeInput" placeholder="Código" />
-            <button onclick="checkSafe()">Abrir</button>
-        </div>
-        
-        <div id="letterPopup" class="popup">
-            <span class="close" onclick="closePopup('letterPopup')">X</span>
-            <h2>puedes pasar a la siguiente página tus nuevas palabras son 00110001 00110101</h2>
-            <button onclick="goToNextPage()">Continuar</button>
+        <div id="carta" class="nota" style="display: none;">
+            Puedes pasar a la siguiente página, tus nuevas palabras son 00110001 00110101
+            <br><button onclick="continuar()">Continuar</button>
+            <div class="cerrar" onclick="cerrarCarta(event)">X</div>
         </div>
     </div>
 
     <script>
-        function showNote() {
-            document.getElementById('notePopup').style.display = 'flex';
+        function mostrarNota() {
+            document.getElementById("nota").style.display = "block";
         }
 
-        function openSafe() {
-            document.getElementById('safePopup').style.display = 'flex';
+        function cerrarNota(event) {
+            event.stopPropagation(); // Evita que se cierre al hacer clic en el fondo
+            document.getElementById("nota").style.display = "none";
         }
 
-        function closePopup(popupId) {
-            document.getElementById(popupId).style.display = 'none';
-        }
-
-        function checkSafe() {
-            const code = document.getElementById('safeInput').value;
-            if (code === '2345') {
-                closePopup('safePopup');
-                document.getElementById('letterPopup').style.display = 'flex';
+        function abrirCajaFuerte() {
+            let combinacion = prompt("Ingresa la combinación (4 dígitos, sin ':'):");
+            if (combinacion === "2345") {
+                document.getElementById("carta").style.display = "block"; // Mostrar la carta
             } else {
-                alert('Código incorrecto. Intenta de nuevo.');
+                alert("Combinación incorrecta.");
             }
         }
 
-        function goToNextPage() {
-            window.location.href = 'Acertijo_7-1902.html'; // Cambia a tu siguiente página
+        function cerrarCarta(event) {
+            event.stopPropagation(); // Evita que se cierre al hacer clic en el fondo
+            document.getElementById("carta").style.display = "none";
+        }
+
+        function continuar() {
+            window.location.href = "Acertijo_7-1902.html"; // Redirigir a la siguiente página
         }
     </script>
 </body>
