@@ -24,6 +24,11 @@
             padding: 0 10px;
             box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.5);
         }
+        .app-button {
+            margin-right: 10px;
+            cursor: pointer;
+            color: white;
+        }
         .window {
             position: absolute;
             background-color: #3E3E3E;
@@ -31,6 +36,8 @@
             border-radius: 5px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
             display: none;
+            width: 300px; /* Ajusta el ancho según lo necesites */
+            height: auto; /* Altura automática para contenido dinámico */
         }
         .header {
             background-color: #1A1A1A;
@@ -96,16 +103,19 @@
         const recycleBin = document.getElementById('recycle-bin');
         const cmd = document.getElementById('cmd');
 
+        // Abrir Bloc de Notas
         notepadButton.onclick = () => {
             notepad.style.display = 'block';
             moveWindow(notepad);
         };
 
+        // Abrir Papelera de Reciclaje
         recycleBinButton.onclick = () => {
             recycleBin.style.display = 'block';
             moveWindow(recycleBin);
         };
 
+        // Abrir Candado
         lockButton.onclick = () => {
             const password = prompt('Introduce la contraseña del candado:');
             if (password === '27011502') {
@@ -116,6 +126,7 @@
             }
         };
 
+        // Acceder a Papelera de Reciclaje
         document.getElementById('access-button').onclick = () => {
             const passwordInput = document.getElementById('recycle-password').value;
             if (passwordInput === 'miniñabonita') {
@@ -129,10 +140,12 @@
             }
         };
 
+        // Continuar en la consola
         document.getElementById('continue-button').onclick = () => {
             window.location.href = 'https://ash123423.github.io/Acertijos/acertijo_7-112.html';
         };
 
+        // Mover ventanas
         function moveWindow(windowElement) {
             let isMoving = false;
             let offsetX, offsetY;
