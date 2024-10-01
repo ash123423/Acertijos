@@ -3,152 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Juego de Puertas</title>
+    <title>Nueva Página</title>
     <style>
         body {
-            background-color: black;
-            color: white;
-            font-family: 'monospace'; /* La tipografía que siempre usas */
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-start;
-            height: 100vh;
-            margin: 0;
+            font-family: 'Arial', sans-serif; /* Asegúrate de usar la tipografía que prefieres */
+            background-color: black; /* Fondo negro */
+            color: white; /* Texto blanco */
+            text-align: center; /* Centrar el texto */
+            padding: 50px; /* Espaciado */
         }
-
-        h1 {
-            margin-top: 20px;
-            margin-bottom: 40px;
+        .caja-texto {
+            margin-top: 20px; /* Margen superior */
         }
-
-        .puertas-container {
-            display: flex;
-            justify-content: space-around;
-            width: 80%;
-            margin-top: 20px;
+        input[type="text"] {
+            padding: 10px; /* Espaciado dentro de la caja de texto */
+            font-size: 16px; /* Tamaño de la fuente */
+            width: 300px; /* Ancho de la caja de texto */
         }
-
-        .puerta {
-            width: 150px;
-            height: 300px;
-            border: 3px solid white;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            position: relative;
-            cursor: pointer;
-        }
-
-        .puerta:hover {
-            cursor: pointer;
-        }
-
-        .manija {
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background-color: white;
-            position: absolute;
-            bottom: 80px;
-        }
-
-        .nombre-puerta {
-            position: absolute;
-            top: -30px;
-        }
-
-        .mensaje {
-            position: absolute;
-            top: 320px;
-            font-size: 20px;
-            transition: opacity 0.5s ease;
-        }
-
-        #input-caja {
-            margin-top: 50px;
-        }
-
-        #input-caja input {
-            padding: 10px;
-            font-size: 18px;
-        }
-
-        #input-caja button {
-            padding: 10px;
-            font-size: 18px;
-            margin-left: 10px;
-        }
-
-        .incorrecto {
-            color: red;
-        }
-
-        .correcto {
-            color: green;
+        button {
+            padding: 10px; /* Espaciado dentro del botón */
+            font-size: 16px; /* Tamaño de la fuente */
+            margin-top: 10px; /* Margen superior */
+            cursor: pointer; /* Cursor de mano */
         }
     </style>
 </head>
 <body>
 
-    <h1>Elige una Puerta</h1>
-
-    <div class="puertas-container">
-        <div class="puerta" id="puerta1" onclick="verificarPuerta(1)">
-            <div class="nombre-puerta">Puerta 1</div>
-            <div class="manija"></div>
-            <div class="mensaje" id="mensaje1"></div>
-        </div>
-        <div class="puerta" id="puerta2" onclick="verificarPuerta(2)">
-            <div class="nombre-puerta">Puerta 2</div>
-            <div class="manija"></div>
-            <div class="mensaje" id="mensaje2"></div>
-        </div>
-        <div class="puerta" id="puerta3" onclick="verificarPuerta(3)">
-            <div class="nombre-puerta">Puerta 3</div>
-            <div class="manija"></div>
-            <div class="mensaje" id="mensaje3"></div>
-        </div>
-    </div>
-
-    <div id="input-caja">
-        <input type="text" id="codigoInput" placeholder="Introduce el código binario">
-        <button onclick="verificarCodigo()">Continuar</button>
+    <h1>Título de la Página</h1> <!-- Título de la página -->
+    
+    <div class="caja-texto">
+        <input type="text" id="entrada" placeholder="Ingresa tu texto aquí"> <!-- Caja de texto -->
+        <button onclick="continuar()">Continuar</button> <!-- Botón de continuar -->
     </div>
 
     <script>
-        let puertaCorrecta = Math.floor(Math.random() * 3) + 1; // Selecciona aleatoriamente la puerta correcta
-        let codigoCorrecto = "00110001 00110101";
-
-        function verificarPuerta(puerta) {
-            let mensaje = document.getElementById(`mensaje${puerta}`);
-            if (puerta === puertaCorrecta) {
-                mensaje.textContent = "Correcto";
-                mensaje.className = "correcto";
-                setTimeout(() => { mensaje.style.opacity = "0"; }, 2000); // Desaparece después de 2 segundos
+        function continuar() {
+            const entrada = document.getElementById('entrada').value; // Obtener el valor de la caja de texto
+            if (entrada) {
+                // Acción a tomar al continuar (puedes modificar esto según tus necesidades)
+                alert('Has ingresado: ' + entrada); // Mostrar un mensaje con el texto ingresado
+                // Redirigir a otra página si es necesario
+                // window.location.href = 'siguiente_pagina.html'; // Descomentar y poner la URL deseada
             } else {
-                mensaje.textContent = "Incorrecta";
-                mensaje.className = "incorrecto";
-                setTimeout(() => { mensaje.style.opacity = "0"; }, 2000); // Desaparece después de 2 segundos
-                setTimeout(() => {
-                    alert("Reiniciando...");
-                    puertaCorrecta = Math.floor(Math.random() * 3) + 1; // Cambia la puerta correcta
-                }, 2500); // Reinicia el juego después de un corto retraso
-            }
-            mensaje.style.opacity = "1"; // Asegura que el mensaje sea visible
-        }
-
-        function verificarCodigo() {
-            let codigoInput = document.getElementById("codigoInput").value;
-            if (codigoInput === codigoCorrecto) {
-                document.body.innerHTML = ""; // Limpiar la pantalla
-                document.body.style.backgroundColor = "black"; // Fondo negro
-            } else {
-                alert("Contraseña incorrecta");
+                alert('Por favor, ingresa un texto.'); // Mensaje si la caja de texto está vacía
             }
         }
     </script>
-
 </body>
 </html>
