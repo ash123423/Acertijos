@@ -3,190 +3,154 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simulador Linux</title>
+    <title>Simulación de Linux</title>
     <style>
         body {
-            margin: 0;
-            background-color: #000;
-            color: #fff;
-            font-family: 'Courier New', Courier, monospace;
-            overflow: hidden;
-        }
-        #desktop {
-            position: relative;
-            width: 100%;
-            height: 100vh;
-            background-color: #2f2f2f;
+            background-color: #2c2c2c; /* Fondo oscuro */
+            color: white;
+            font-family: 'Courier New', monospace;
+            overflow: hidden; /* Desactivar el scroll */
         }
         .window {
             width: 300px;
-            height: 200px;
-            background-color: #3b3b3b;
-            border: 2px solid #fff;
+            border: 1px solid #333;
+            background-color: #1c1c1c;
             position: absolute;
-            padding: 10px;
-            display: none;
-            z-index: 2;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            display: none; /* Ocultar por defecto */
         }
         .title-bar {
-            background-color: #1a1a1a;
-            color: #fff;
-            padding: 5px;
-            cursor: move;
-        }
-        #notepad, #recycleBin, #lockApp {
-            display: block;
-            cursor: pointer;
-            margin: 10px;
-            font-size: 20px;
-            color: #fff;
-        }
-        .hidden {
-            display: none;
-        }
-        .console {
-            width: 400px;
-            height: 300px;
-            background-color: #1a1a1a;
-            color: #fff;
-            padding: 10px;
-            position: absolute;
-            display: none;
-            overflow: auto;
-        }
-        input[type="text"] {
-            width: 100%;
-            padding: 5px;
-            margin: 10px 0;
-            border: 1px solid #fff;
             background-color: #3b3b3b;
-            color: #fff;
-        }
-        button {
-            background-color: #5f5f5f;
-            color: #fff;
-            border: none;
             padding: 5px;
+            cursor: move; /* Mover ventanas */
+        }
+        .content {
+            padding: 10px;
+            font-size: 14px;
+        }
+        .button {
+            background-color: #444;
+            color: white;
+            border: none;
+            padding: 5px 10px;
             cursor: pointer;
         }
-        button:hover {
-            background-color: #7f7f7f;
+        .button:hover {
+            background-color: #555;
+        }
+        .taskbar {
+            background-color: #3b3b3b;
+            height: 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 10px;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+        }
+        .task {
+            margin: 0 10px;
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
-    <div id="desktop">
-        <div id="notepad" class="window">
-            <div class="title-bar">Bloc de Notas</div>
-            <p>Me imagino que estuvo facil lo del usuario y la contraseña entonces ahora toma esta contraseña y traducela:</p>
-            <p><strong>01101101 01101001 01101110 01101001 11000011 10110001 01100001 01100010 01101111 01101110 01101001 01110100 01100001</strong></p>
-        </div>
 
-        <div id="recycleBin" class="window">
-            <div class="title-bar">Papelera de Reciclaje</div>
-            <p>Introduce la contraseña para acceder:</p>
-            <input type="text" id="passwordInput" placeholder="Contraseña">
-            <button id="accessBtn">Acceder</button>
-            <p id="errorMessage" class="hidden" style="color: red;">Contraseña incorrecta.</p>
-        </div>
+<div class="taskbar">
+    <div class="task" onclick="openWindow('notepad')">Bloc de notas</div>
+    <div class="task" onclick="openWindow('recycleBin')">Papelera de reciclaje</div>
+    <div class="task" onclick="openWindow('lock')">Candado</div>
+</div>
 
-        <div id="lockApp" class="window">
-            <div class="title-bar">Candado</div>
-            <p>Introduce la contraseña del candado:</p>
-            <input type="text" id="lockPasswordInput" placeholder="Contraseña">
-            <button id="lockAccessBtn">Acceder</button>
-        </div>
-
-        <div class="console" id="console">
-            <p>Felicidades ya lograste completar este acertijo toma tu código y avanza al siguiente:</p>
-            <p><strong>00110001 00110101</strong></p>
-            <button id="continueBtn">Continuar</button>
-        </div>
-
-        <div id="notepadIcon">📝 Bloc de Notas</div>
-        <div id="recycleBinIcon">🗑️ Papelera de Reciclaje</div>
-        <div id="lockAppIcon">🔒 Candado</div>
+<div class="window" id="notepad">
+    <div class="title-bar">Bloc de notas</div>
+    <div class="content">
+        Me imagino que estuvo fácil lo del usuario y la contraseña, entonces ahora toma esta contraseña y traducela:
+        <br><br>
+        <code>01101101 01101001 01101110 01101001 11000011 10110001 01100001 01100010 01101111 01101110 01101001 01110100 01100001</code>
     </div>
+</div>
 
-    <script>
-        const notepad = document.getElementById('notepad');
-        const recycleBin = document.getElementById('recycleBin');
-        const lockApp = document.getElementById('lockApp');
-        const consoleWindow = document.getElementById('console');
-        const notepadIcon = document.getElementById('notepadIcon');
-        const recycleBinIcon = document.getElementById('recycleBinIcon');
-        const lockAppIcon = document.getElementById('lockAppIcon');
-        const accessBtn = document.getElementById('accessBtn');
-        const lockAccessBtn = document.getElementById('lockAccessBtn');
-        const continueBtn = document.getElementById('continueBtn');
-        const passwordInput = document.getElementById('passwordInput');
-        const lockPasswordInput = document.getElementById('lockPasswordInput');
-        const errorMessage = document.getElementById('errorMessage');
+<div class="window" id="recycleBin">
+    <div class="title-bar">Papelera de reciclaje</div>
+    <div class="content">
+        <input type="text" id="recyclePass" placeholder="Contraseña" />
+        <button class="button" onclick="checkRecyclePass()">Acceder</button>
+        <div id="recycleMessage"></div>
+    </div>
+</div>
 
-        notepadIcon.addEventListener('click', () => {
-            notepad.style.display = 'block';
-            notepad.style.left = '50px';
-            notepad.style.top = '50px';
-        });
+<div class="window" id="lock">
+    <div class="title-bar">Candado</div>
+    <div class="content">
+        <input type="text" id="lockPass" placeholder="Contraseña" />
+        <button class="button" onclick="checkLockPass()">Acceder</button>
+        <div id="lockMessage"></div>
+    </div>
+</div>
 
-        recycleBinIcon.addEventListener('click', () => {
-            recycleBin.style.display = 'block';
-            recycleBin.style.left = '400px';
-            recycleBin.style.top = '50px';
-        });
+<div class="window" id="cmd">
+    <div class="title-bar">Consola</div>
+    <div class="content">
+        <pre>Felicidades, ya lograste completar este acertijo. Toma tu código y avanza al siguiente: 00110001 00110101</pre>
+        <button class="button" onclick="closeCmd()">Continuar</button>
+    </div>
+</div>
 
-        lockAppIcon.addEventListener('click', () => {
-            lockApp.style.display = 'block';
-            lockApp.style.left = '400px';
-            lockApp.style.top = '300px';
-        });
+<script>
+    // Funciones para abrir y cerrar ventanas
+    function openWindow(id) {
+        document.querySelectorAll('.window').forEach(win => win.style.display = 'none');
+        document.getElementById(id).style.display = 'block';
+    }
 
-        accessBtn.addEventListener('click', () => {
-            const password = passwordInput.value;
-            if (password === 'miniñabonita') {
-                recycleBin.style.display = 'none';
-                const note = document.createElement('div');
-                note.innerText = 'La contraseña del candado es la misma del programa';
-                note.style.color = 'white';
-                notepad.appendChild(note);
-                notepad.style.display = 'block'; // Mostrar Bloc de Notas con la información
-            } else {
-                errorMessage.classList.remove('hidden');
-            }
-        });
+    function closeCmd() {
+        document.getElementById('cmd').style.display = 'none';
+    }
 
-        lockAccessBtn.addEventListener('click', () => {
-            const lockPassword = lockPasswordInput.value;
-            if (lockPassword === '27011502') {
-                consoleWindow.style.display = 'block';
-            }
-        });
+    // Validación de contraseñas
+    function checkRecyclePass() {
+        const pass = document.getElementById('recyclePass').value;
+        const message = document.getElementById('recycleMessage');
+        if (pass === 'miniñabonita') {
+            message.innerHTML = 'Acceso concedido';
+            openWindow('cmd'); // Abre la consola
+        } else {
+            message.innerHTML = 'Contraseña incorrecta';
+        }
+    }
 
-        continueBtn.addEventListener('click', () => {
-            alert('¡Continuando al siguiente acertijo!');
-            consoleWindow.style.display = 'none'; // Cerrar consola
-        });
+    function checkLockPass() {
+        const pass = document.getElementById('lockPass').value;
+        const message = document.getElementById('lockMessage');
+        if (pass === '27011502') {
+            message.innerHTML = 'Acceso concedido';
+            // Aquí puedes agregar la acción deseada al abrir el candado
+        } else {
+            message.innerHTML = 'Contraseña incorrecta';
+        }
+    }
 
-        // Función para permitir mover las ventanas
-        document.querySelectorAll('.window').forEach(window => {
-            window.querySelector('.title-bar').addEventListener('mousedown', (e) => {
-                let offsetX = e.clientX - window.getBoundingClientRect().left;
-                let offsetY = e.clientY - window.getBoundingClientRect().top;
+    // Funcionalidad para mover ventanas
+    let isDragging = false;
+    let offsetX, offsetY;
 
-                const mouseMoveHandler = (e) => {
-                    window.style.left = `${e.clientX - offsetX}px`;
-                    window.style.top = `${e.clientY - offsetY}px`;
-                };
+    document.querySelectorAll('.title-bar').forEach(bar => {
+        bar.onmousedown = function(e) {
+            isDragging = true;
+            offsetX = e.clientX - bar.parentElement.offsetLeft;
+            offsetY = e.clientY - bar.parentElement.offsetTop;
+            document.onmouseup = () => isDragging = false;
+            document.onmousemove = (event) => {
+                if (isDragging) {
+                    bar.parentElement.style.left = (event.clientX - offsetX) + 'px';
+                    bar.parentElement.style.top = (event.clientY - offsetY) + 'px';
+                }
+            };
+        };
+    });
+</script>
 
-                const mouseUpHandler = () => {
-                    document.removeEventListener('mousemove', mouseMoveHandler);
-                    document.removeEventListener('mouseup', mouseUpHandler);
-                };
-
-                document.addEventListener('mousemove', mouseMoveHandler);
-                document.addEventListener('mouseup', mouseUpHandler);
-            });
-        });
-    </script>
 </body>
 </html>
