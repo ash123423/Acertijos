@@ -130,9 +130,11 @@
 
             consoleOutput.innerHTML += '<br/>' + response;
 
-            // Mensaje de felicitaciones
+            // Mensaje de felicitaciones después de 3 segundos si se ingresaron todos los comandos
             if (commandsEntered === 3) {
-                consoleOutput.innerHTML += '<br/>Felicidades lograste terminar todos los acertijos';
+                setTimeout(() => {
+                    consoleOutput.innerHTML += '<br/>Felicidades lograste terminar todos los acertijos';
+                }, 3000); // Esperar 3 segundos
             }
 
             // Limpiar el campo de entrada
