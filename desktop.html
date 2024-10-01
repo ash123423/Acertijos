@@ -8,99 +8,125 @@
         body {
             background-color: #000;
             color: #fff;
-            font-family: 'Arial', sans-serif; /* Cambiar a una fuente similar a Windows XP */
-            margin: 0; /* Eliminar márgenes para evitar scroll */
-            overflow: hidden; /* Deshabilitar el scroll */
+            font-family: 'Arial', sans-serif;
+            overflow: hidden; /* Evitar el scroll */
+            margin: 0;
         }
         .taskbar {
-            position: absolute;
+            position: fixed;
             bottom: 0;
-            left: 0;
-            right: 0;
-            height: 40px;
-            background-color: #555; /* Color de la barra de tareas */
+            height: 30px;
+            background-color: #2b2b2b;
+            width: 100%;
+            border-top: 2px solid #fff;
             display: flex;
             align-items: center;
             padding-left: 10px;
-            box-shadow: 0 -2px 5px rgba(255, 255, 255, 0.2);
-        }
-        .taskbar button {
-            background-color: #777; /* Color de los botones de la barra de tareas */
-            border: none;
             color: white;
-            padding: 5px 10px;
-            margin-right: 10px;
-            cursor: pointer;
         }
         .window {
+            position: absolute;
+            background-color: #e3e3e3;
+            border: 2px solid #000;
+            padding: 10px;
             width: 300px;
             height: 200px;
-            border: 2px solid #fff;
-            background-color: #222;
-            position: absolute;
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-            z-index: 1;
+            box-shadow: 2px 2px 5px #888;
+            cursor: move;
         }
-        .window-title {
-            background-color: #333;
+        .window-header {
+            background-color: #0000ff;
+            color: #fff;
             padding: 5px;
             cursor: move;
         }
-        .window-content {
-            padding: 10px;
+        .hidden-file {
+            display: none;
         }
-        .recycle-bin {
-            position: absolute;
-            top: 50px;
-            left: 50px;
-        }
-        .lock-app {
-            position: absolute;
-            top: 50px;
-            left: 400px;
+        .button {
+            background-color: #fff;
+            color: #000;
+            border: none;
+            cursor: pointer;
+            padding: 5px;
+            width: 100%;
+            margin-top: 10px;
         }
     </style>
 </head>
 <body>
-    <div class="window" id="recycleBin" style="display: none;">
-        <div class="window-title">Papelera de reciclaje</div>
-        <div class="window-content">
-            <p>Contenidos de la Papelera de reciclaje.</p>
-            <button onclick="cerrarVentana('recycleBin')">Cerrar</button>
-        </div>
+
+    <div class="window" id="notepad" style="top: 50px; left: 50px;">
+        <div class="window-header">Bloc de notas</div>
+        <p>Me imagino que estuvo fácil lo del usuario y la contraseña, entonces ahora toma esta contraseña y tradúcela: <br>
+            <strong>01101101 01101001 01101110 01101001 11000011 10110001 01100001 01100010 01101111 01101110 01101001 01110100 01100001</strong>
+        </p>
+        <button class="button" onclick="openRecycleBin()">Abrir Papelera de reciclaje</button>
     </div>
 
-    <div class="window" id="lockApp" style="display: none;">
-        <div class="window-title">Candado</div>
-        <div class="window-content">
-            <p>Ingrese la contraseña:</p>
-            <input type="password" id="password" placeholder="Contraseña">
-            <button onclick="verificarContraseña()">Acceder</button>
-            <button onclick="cerrarVentana('lockApp')">Cerrar</button>
+    <div class="window hidden-file" id="recycleBin" style="top: 100px; left: 400px;">
+        <div class="window-header">Papelera de reciclaje</div>
+        <p>Ingrese contraseña para abrir:</p>
+        <input type="text" id="recyclePassword" placeholder="Contraseña">
+        <button class="button" onclick="checkRecyclePassword()">Acceder</button>
+        <div class="hidden-file" id="notepadInRecycleBin" style="display:none;">
+            <p>La contraseña del candado es la misma del programa.</p>
+            <button class="button" onclick="openLock()">Abrir candado</button>
         </div>
     </div>
 
     <div class="taskbar">
-        <button onclick="abrirVentana('recycleBin')">Papelera de reciclaje</button>
-        <button onclick="abrirVentana('lockApp')">Candado</button>
+        <span>Inicio</span>
     </div>
 
     <script>
-        function abrirVentana(ventana) {
-            document.getElementById(ventana).style.display = 'block';
+        function openRecycleBin() {
+            document.getElementById('recycleBin').style.display = 'block';
         }
 
-        function cerrarVentana(ventana) {
-            document.getElementById(ventana).style.display = 'none';
-        }
-
-        function verificarContraseña() {
-            const password = document.getElementById('password').value;
-            if (password === '27011502') {
-                alert('Acceso concedido.');
-                // Aquí puedes agregar más funcionalidad al acceso
+        function checkRecyclePassword() {
+            const password = document.getElementById('recyclePassword').value;
+            if (password === 'miniñabonita') {
+                document.getElementById('notepadInRecycleBin').style.display = 'block';
+                alert("Acceso concedido a la Papelera de reciclaje.");
             } else {
-                alert('Contraseña incorrecta.');
+                alert("Contraseña incorrecta.");
+            }
+        }
+
+        function openLock() {
+            alert("Felicidades ya lograste completar este acertijo toma tu código y avanza al siguiente 00110001 00110101");
+        }
+
+        // Función para permitir mover las ventanas
+        dragElement(document.getElementById("notepad"));
+        dragElement(document.getElementById("recycleBin"));
+
+        function dragElement(el) {
+            let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+            el.onmousedown = dragMouseDown;
+
+            function dragMouseDown(e) {
+                e = e || window.event;
+                pos3 = e.clientX;
+                pos4 = e.clientY;
+                document.onmouseup = closeDragElement;
+                document.onmousemove = elementDrag;
+            }
+
+            function elementDrag(e) {
+                e = e || window.event;
+                pos1 = pos3 - e.clientX;
+                pos2 = pos4 - e.clientY;
+                pos3 = e.clientX;
+                pos4 = e.clientY;
+                el.style.top = (el.offsetTop - pos2) + "px";
+                el.style.left = (el.offsetLeft - pos1) + "px";
+            }
+
+            function closeDragElement() {
+                document.onmouseup = null;
+                document.onmousemove = null;
             }
         }
     </script>
