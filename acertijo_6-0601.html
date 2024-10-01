@@ -3,51 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Habitación Interactiva</title>
+    <title>Habitación Interactiva - Estilo Undertale</title>
     <style>
         body {
-            background-color: #2b2b2b; /* Color de fondo oscuro */
-            color: white;
-            font-family: 'Courier New', monospace;
+            background-color: #000; /* Fondo negro */
+            color: #fff; /* Texto blanco */
+            font-family: 'Press Start 2P', cursive; /* Fuente de estilo retro */
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
             margin: 0;
-            flex-direction: column;
             text-align: center;
+        }
+        @font-face {
+            font-family: 'Press Start 2P';
+            src: url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap'); /* Carga la fuente retro */
         }
         #habitacion {
             position: relative;
             width: 80%;
             height: 70%;
-            background-color: #444; /* Color de la habitación */
-            border: 2px solid white;
+            background-color: #222; /* Color de la habitación */
+            border: 4px solid #fff; /* Borde blanco */
             border-radius: 10px;
-            padding: 20px;
-            overflow: hidden; /* Evita que el contenido se desborde */
+            overflow: hidden;
+        }
+        .elemento {
+            position: absolute;
+            transition: transform 0.5s; /* Animación de transformación */
+            cursor: pointer; /* Cursor de mano al pasar por encima */
         }
         #cama {
-            width: 200px;
-            height: 100px;
+            width: 150px;
+            height: 80px;
             background-color: #6f4e37; /* Color de la cama */
-            position: absolute;
-            bottom: 20px;
             left: 20px;
+            bottom: 20px;
             border-radius: 10px;
         }
         #papel {
             width: 50px;
             height: 30px;
-            background-color: white;
-            color: black;
+            background-color: #fff; /* Color del papel */
+            color: #000; /* Texto negro */
             text-align: center;
             line-height: 30px;
-            position: absolute;
-            bottom: 40px;
             left: 40px;
-            cursor: pointer;
+            bottom: 80px;
             display: none; /* Oculto hasta que la cama sea clickeada */
+            z-index: 2; /* Asegura que el papel esté por encima */
         }
         #reloj {
             font-size: 36px;
@@ -56,22 +61,16 @@
             right: 20px;
         }
         #cajaFuerte {
-            width: 100px;
-            height: 100px;
+            width: 80px;
+            height: 80px;
             background-color: #8b8b8b; /* Color de la caja fuerte */
-            position: absolute;
-            top: 50%;
             left: 50%;
+            top: 50%;
             transform: translate(-50%, -50%);
-            border-radius: 10px;
             display: flex;
             justify-content: center;
             align-items: center;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        #cajaFuerte:hover {
-            background-color: #aaaaaa; /* Cambia el color al pasar el mouse */
+            border-radius: 10px;
         }
         #mensajeCajaFuerte {
             display: none; /* Oculto hasta que la caja fuerte sea clickeada */
@@ -81,8 +80,8 @@
         #botonContinuar {
             display: none; /* Oculto hasta que se abra la caja fuerte */
             padding: 10px 20px;
-            background-color: white;
-            color: black;
+            background-color: #fff;
+            color: #000;
             border: none;
             border-radius: 5px;
             cursor: pointer;
@@ -92,10 +91,10 @@
 </head>
 <body>
     <div id="habitacion">
-        <div id="cama" onclick="mostrarPapel()">🛏️</div>
-        <div id="papel" onclick="mostrarMensaje()">📝 Papel: HORA MILITAR</div>
+        <div id="cama" class="elemento" onclick="mostrarPapel()">🛏️</div>
+        <div id="papel" class="elemento" onclick="mostrarMensaje()">📝 Papel: HORA MILITAR</div>
         <div id="reloj">🕚 11:45 PM</div>
-        <div id="cajaFuerte" onclick="abrirCajaFuerte()">
+        <div id="cajaFuerte" class="elemento" onclick="abrirCajaFuerte()">
             🗝️
         </div>
         <div id="mensajeCajaFuerte">
@@ -113,6 +112,7 @@
     <script>
         function mostrarPapel() {
             document.getElementById("papel").style.display = "block"; // Muestra el papel
+            animarElemento("papel"); // Anima el papel
         }
 
         function mostrarMensaje() {
@@ -121,6 +121,7 @@
 
         function abrirCajaFuerte() {
             document.getElementById("mensajeCajaFuerte").style.display = "block"; // Muestra el mensaje de la caja fuerte
+            animarElemento("cajaFuerte"); // Anima la caja fuerte
         }
 
         function verificarCombinacion() {
@@ -129,9 +130,19 @@
                 document.getElementById("mensajeCajaFuerte").style.display = "none"; // Oculta el mensaje de la caja fuerte
                 document.getElementById("carta").style.display = "block"; // Muestra la carta
                 document.getElementById("botonContinuar").style.display = "block"; // Muestra el botón de continuar
+                animarElemento("carta"); // Anima la carta
             } else {
                 alert("Combinación incorrecta. Inténtalo de nuevo.");
             }
+        }
+
+        function animarElemento(elementId) {
+            const elemento = document.getElementById(elementId);
+            elemento.style.transform = "scale(0.8)"; // Escala el elemento al hacer clic
+            setTimeout(() => {
+                elemento.style.transform = "scale(1)"; // Devuelve el elemento a su tamaño original
+            }, 300);
+            elemento.style.transition = "transform 0.3s"; // Transición suave
         }
 
         function continuar() {
