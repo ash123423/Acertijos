@@ -8,7 +8,7 @@
         body {
             background-color: black;
             color: white;
-            font-family: 'Courier New', monospace;
+            font-family: 'monospace'; /* La tipografía que siempre usas */
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -21,89 +21,132 @@
             margin-bottom: 20px;
         }
 
-        .doors {
+        .puertas-container {
             display: flex;
             justify-content: space-around;
             width: 80%;
         }
 
-        .door {
-            width: 100px;
-            height: 200px;
-            background-color: #ccc;
+        .puerta {
+            width: 150px;
+            height: 300px;
+            border: 3px solid white;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 16px;
-            cursor: pointer;
+            flex-direction: column;
             position: relative;
         }
 
-        .door.correct {
-            background-color: green;
-        }
-
-        .door::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 10px;
-            height: 100px;
+        .manija {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
             background-color: white;
-        }
-
-        .door.open {
-            background-color: black;
-        }
-
-        .door-message {
             position: absolute;
-            top: 220px;
-            text-align: center;
+            right: 10px;
+            bottom: 40px;
+        }
+
+        .nombre-puerta {
+            position: absolute;
+            top: -30px;
+        }
+
+        .mensaje {
+            margin-top: 20px;
             font-size: 20px;
         }
 
-        button {
+        #codigo-binario {
             margin-top: 20px;
-            padding: 10px 15px;
-            background-color: white;
-            color: black;
-            border: none;
-            cursor: pointer;
+            display: none;
+        }
+
+        #input-caja {
+            margin-top: 20px;
+            display: none;
+        }
+
+        #input-caja input {
+            padding: 10px;
+            font-size: 18px;
+        }
+
+        #input-caja button {
+            padding: 10px;
+            font-size: 18px;
+            margin-left: 10px;
+        }
+
+        .incorrecto {
+            color: red;
+        }
+
+        .correcto {
+            color: green;
         }
     </style>
 </head>
 <body>
+
     <h1>Elige una Puerta</h1>
-    <div class="doors">
-        <div class="door" id="door1" onclick="openDoor(1)">Puerta 1</div>
-        <div class="door" id="door2" onclick="openDoor(2)">Puerta 2</div>
-        <div class="door" id="door3" onclick="openDoor(3)">Puerta 3</div>
+
+    <div class="puertas-container">
+        <div class="puerta" id="puerta1">
+            <div class="nombre-puerta">Puerta 1</div>
+            <div class="manija" onclick="verificarPuerta(1)"></div>
+        </div>
+        <div class="puerta" id="puerta2">
+            <div class="nombre-puerta">Puerta 2</div>
+            <div class="manija" onclick="verificarPuerta(2)"></div>
+        </div>
+        <div class="puerta" id="puerta3">
+            <div class="nombre-puerta">Puerta 3</div>
+            <div class="manija" onclick="verificarPuerta(3)"></div>
+        </div>
     </div>
-    <div id="door-message" class="door-message"></div>
-    <button onclick="resetGame()">Reiniciar</button>
+
+    <div id="mensaje" class="mensaje"></div>
+
+    <div id="codigo-binario">
+        <p>00110001 00110101 guardalos en donde escribas todo y usalos</p>
+    </div>
+
+    <div id="input-caja">
+        <input type="text" id="codigoInput" placeholder="Introduce el código binario">
+        <button onclick="verificarCodigo()">Continuar</button>
+    </div>
 
     <script>
-        let correctDoor = Math.floor(Math.random() * 3) + 1;
+        let puertaCorrecta = 2; // Cambia la puerta correcta como quieras
+        let codigoCorrecto = "00110001 00110101";
 
-        function openDoor(doorNumber) {
-            const messageElement = document.getElementById('door-message');
-            if (doorNumber === correctDoor) {
-                messageElement.innerText = "¡Correcta!";
-                document.getElementById(`door${doorNumber}`).classList.add("correct");
+        function verificarPuerta(puerta) {
+            let mensaje = document.getElementById("mensaje");
+            if (puerta === puertaCorrecta) {
+                mensaje.textContent = "Correcto";
+                mensaje.className = "correcto";
+                document.getElementById("codigo-binario").style.display = "block";
+                document.getElementById("input-caja").style.display = "block";
             } else {
-                messageElement.innerText = "Incorrecta";
-                document.getElementById(`door${doorNumber}`).classList.add("open");
-                correctDoor = Math.floor(Math.random() * 3) + 1; // Cambia la puerta correcta
+                mensaje.textContent = "Incorrecta";
+                mensaje.className = "incorrecto";
             }
         }
 
-        function resetGame() {
-            document.querySelectorAll('.door').forEach(door => door.classList.remove('open', 'correct'));
-            document.getElementById('door-message').innerText = "";
-            correctDoor = Math.floor(Math.random() * 3) + 1;
+        function verificarCodigo() {
+            let codigoInput = document.getElementById("codigoInput").value;
+            let mensaje = document.getElementById("mensaje");
+            if (codigoInput === codigoCorrecto) {
+                document.body.innerHTML = ""; // Limpiar la pantalla
+                document.body.style.backgroundColor = "black"; // Fondo negro
+            } else {
+                mensaje.textContent = "Contraseña incorrecta";
+                mensaje.className = "incorrecto";
+            }
         }
     </script>
+
 </body>
 </html>
