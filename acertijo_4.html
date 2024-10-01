@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hackeo Cayo Perico</title>
+    <style>
+        body {
+            background-color: black; /* Fondo negro */
+            color: #00ff00; /* Texto verde */
+            font-family: 'Courier New', monospace; /* Fuente retro */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            flex-direction: column;
+            text-align: center;
+        }
+        #pantalla {
+            border: 2px solid #00ff00;
+            padding: 20px;
+            width: 80%;
+            max-width: 600px;
+            background-color: black;
+        }
+        #numeros {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        input[type="text"] {
+            padding: 10px;
+            font-size: 18px;
+            border: 1px solid #00ff00;
+            background-color: black;
+            color: #00ff00;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+        button {
+            padding: 10px 15px;
+            font-size: 18px;
+            margin-top: 10px;
+            cursor: pointer;
+            background-color: #00ff00;
+            color: black;
+            border: none;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #00cc00;
+        }
+        #mensaje-error {
+            color: red;
+            font-size: 18px;
+            margin-top: 10px;
+        }
+        #mensaje-exito {
+            color: #00ff00;
+            font-size: 18px;
+            margin-top: 10px;
+        }
+        #boton-continuar {
+            display: none;
+            margin-top: 20px;
+        }
+    </style>
+    <script>
+        let numeroCorrecto = "1045"; // Este será el número correcto que debe elegir
+        let numerosAleatorios = [];
+        let intervalo;
+
+        // Genera un nuevo conjunto de números cada 7 segundos
+        function generarNumeros() {
+            numerosAleatorios = [
+                (Math.floor(Math.random() * 9000) + 1000).toString(),
+                (Math.floor(Math.random() * 9000) + 1000).toString(),
+                numeroCorrecto,
+                (Math.floor(Math.random() * 9000) + 1000).toString(),
+                (Math.floor(Math.random() * 9000) + 1000).toString(),
+            ];
+            numerosAleatorios.sort(() => Math.random() - 0.5); // Desordenar los números
+            document.getElementById("numeros").innerText = numerosAleatorios.join(" ");
+        }
+
+        // Verificar si el número ingresado es el correcto
+        function verificarNumero() {
+            let respuesta = document.getElementById("codigo").value;
+            if (respuesta === numeroCorrecto) {
+                document.getElementById("mensaje-error").style.display = "none";
+                document.getElementById("mensaje-exito").innerText = "Felicidades, toma tus siguientes números: 00110000 00110001";
+                document.getElementById("boton-continuar").style.display = "block"; // Mostrar el botón de continuar
+            } else {
+                document.getElementById("mensaje-error").innerText = "Combinación incorrecta";
+                document.getElementById("mensaje-exito").innerText = "";
+            }
+        }
+
+        // Iniciar la generación de números al cargar la página
+        window.onload = function() {
+            generarNumeros();
+            intervalo = setInterval(generarNumeros, 7000); // Cambiar los números cada 7 segundos
+        }
+    </script>
+</head>
+<body>
+    <div id="pantalla">
+        <p id="numeros">Cargando números...</p>
+        <p>Selecciona el número correcto ingresándolo en el campo de texto.</p>
+        <input type="text" id="codigo" placeholder="Ingresa el número">
+        <button onclick="verificarNumero()">Verificar</button>
+        <p id="mensaje-error"></p>
+        <p id="mensaje-exito"></p>
+        <button id="boton-continuar" onclick="window.location.href='https://ash123423.github.io/Acertijos/acertijo_5.html'">Continuar</button>
+    </div>
+</body>
+</html>
