@@ -8,7 +8,7 @@
         body {
             background-color: black; /* Fondo negro */
             color: white; /* Texto blanco */
-            font-family: Arial, sans-serif; /* Fuente */
+            font-family: 'Courier New', monospace; /* Fuente retro */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -22,22 +22,36 @@
             font-size: 18px;
             margin-top: 10px;
             border: 1px solid white; /* Borde blanco */
-            background-color: #333; /* Fondo gris oscuro */
+            background-color: black; /* Fondo negro */
             color: white; /* Texto blanco */
             border-radius: 5px;
         }
         button {
             padding: 10px 20px; /* Espaciado del botón */
             font-size: 18px; /* Tamaño de la fuente */
-            background-color: #555; /* Fondo del botón */
-            color: white; /* Texto del botón */
+            background-color: white; /* Fondo del botón */
+            color: black; /* Texto del botón */
             border: none; /* Sin borde */
             border-radius: 5px; /* Esquinas redondeadas */
             cursor: pointer; /* Cursor tipo mano */
             margin-top: 10px; /* Espacio encima del botón */
         }
         button:hover {
-            background-color: #777; /* Fondo del botón al pasar el mouse */
+            background-color: #ccc; /* Fondo del botón al pasar el mouse */
+        }
+        #mensaje-error {
+            color: red; /* Color del mensaje de error */
+            font-size: 18px; /* Tamaño del texto de error */
+            margin-top: 10px; /* Margen superior */
+        }
+        #mensaje-exito {
+            color: white; /* Color del mensaje de éxito */
+            font-size: 18px; /* Tamaño del texto de éxito */
+            margin-top: 10px; /* Margen superior */
+        }
+        #boton-continuar {
+            display: none; /* Ocultar el botón de continuar inicialmente */
+            margin-top: 20px; /* Margen superior */
         }
     </style>
 </head>
