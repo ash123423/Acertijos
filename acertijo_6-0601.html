@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Habitación Interactiva</title>
+    <style>
+        body {
+            background-color: #2b2b2b; /* Color de fondo oscuro */
+            color: white;
+            font-family: 'Courier New', monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            flex-direction: column;
+            text-align: center;
+        }
+        #habitacion {
+            position: relative;
+            width: 80%;
+            height: 70%;
+            background-color: #444; /* Color de la habitación */
+            border: 2px solid white;
+            border-radius: 10px;
+            padding: 20px;
+            overflow: hidden; /* Evita que el contenido se desborde */
+        }
+        #cama {
+            width: 200px;
+            height: 100px;
+            background-color: #6f4e37; /* Color de la cama */
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            border-radius: 10px;
+        }
+        #papel {
+            width: 50px;
+            height: 30px;
+            background-color: white;
+            color: black;
+            text-align: center;
+            line-height: 30px;
+            position: absolute;
+            bottom: 40px;
+            left: 40px;
+            cursor: pointer;
+            display: none; /* Oculto hasta que la cama sea clickeada */
+        }
+        #reloj {
+            font-size: 36px;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+        #cajaFuerte {
+            width: 100px;
+            height: 100px;
+            background-color: #8b8b8b; /* Color de la caja fuerte */
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        #cajaFuerte:hover {
+            background-color: #aaaaaa; /* Cambia el color al pasar el mouse */
+        }
+        #mensajeCajaFuerte {
+            display: none; /* Oculto hasta que la caja fuerte sea clickeada */
+            margin-top: 20px;
+            font-size: 20px;
+        }
+        #botonContinuar {
+            display: none; /* Oculto hasta que se abra la caja fuerte */
+            padding: 10px 20px;
+            background-color: white;
+            color: black;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div id="habitacion">
+        <div id="cama" onclick="mostrarPapel()">🛏️</div>
+        <div id="papel" onclick="mostrarMensaje()">📝 Papel: HORA MILITAR</div>
+        <div id="reloj">🕚 11:45 PM</div>
+        <div id="cajaFuerte" onclick="abrirCajaFuerte()">
+            🗝️
+        </div>
+        <div id="mensajeCajaFuerte">
+            <p>Ingresa la combinación de 4 dígitos:</p>
+            <input type="text" id="combinacion" maxlength="4" placeholder="xxxx">
+            <button onclick="verificarCombinacion()">Abrir</button>
+        </div>
+        <div id="carta" style="display: none;">
+            <p>¡Felicidades! Puedes pasar a la siguiente página.</p>
+            <p>Tus nuevas palabras son: 00110001 00110101</p>
+            <button id="botonContinuar" onclick="continuar()">Continuar</button>
+        </div>
+    </div>
+
+    <script>
+        function mostrarPapel() {
+            document.getElementById("papel").style.display = "block"; // Muestra el papel
+        }
+
+        function mostrarMensaje() {
+            alert("HORA MILITAR");
+        }
+
+        function abrirCajaFuerte() {
+            document.getElementById("mensajeCajaFuerte").style.display = "block"; // Muestra el mensaje de la caja fuerte
+        }
+
+        function verificarCombinacion() {
+            const combinacion = document.getElementById("combinacion").value;
+            if (combinacion === "2345") {
+                document.getElementById("mensajeCajaFuerte").style.display = "none"; // Oculta el mensaje de la caja fuerte
+                document.getElementById("carta").style.display = "block"; // Muestra la carta
+                document.getElementById("botonContinuar").style.display = "block"; // Muestra el botón de continuar
+            } else {
+                alert("Combinación incorrecta. Inténtalo de nuevo.");
+            }
+        }
+
+        function continuar() {
+            window.location.href = "Acertijo_7-1902.html"; // Redirige a la siguiente página
+        }
+    </script>
+</body>
+</html>
