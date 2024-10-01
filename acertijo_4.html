@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hackeo Cayo Perico</title>
+    <title>Acertijo 4</title>
     <style>
         body {
             background-color: black; /* Fondo negro */
-            color: #00ff00; /* Texto verde */
+            color: white; /* Texto blanco */
             font-family: 'Courier New', monospace; /* Fuente retro */
             display: flex;
             justify-content: center;
@@ -18,7 +18,7 @@
             text-align: center;
         }
         #pantalla {
-            border: 2px solid #00ff00;
+            border: 2px solid white;
             padding: 20px;
             width: 80%;
             max-width: 600px;
@@ -31,9 +31,9 @@
         input[type="text"] {
             padding: 10px;
             font-size: 18px;
-            border: 1px solid #00ff00;
+            border: 1px solid white;
             background-color: black;
-            color: #00ff00;
+            color: white;
             border-radius: 5px;
             margin-top: 20px;
         }
@@ -42,13 +42,13 @@
             font-size: 18px;
             margin-top: 10px;
             cursor: pointer;
-            background-color: #00ff00;
+            background-color: white;
             color: black;
             border: none;
             border-radius: 5px;
         }
         button:hover {
-            background-color: #00cc00;
+            background-color: #ccc;
         }
         #mensaje-error {
             color: red;
@@ -56,7 +56,7 @@
             margin-top: 10px;
         }
         #mensaje-exito {
-            color: #00ff00;
+            color: white;
             font-size: 18px;
             margin-top: 10px;
         }
@@ -66,21 +66,29 @@
         }
     </style>
     <script>
-        let numeroCorrecto = "1045"; // Este será el número correcto que debe elegir
         let numerosAleatorios = [];
+        let numeroCorrecto = ""; // Variable para el número correcto
         let intervalo;
 
-        // Genera un nuevo conjunto de números cada 7 segundos
+        // Sonidos
+        let beepSonido = new Audio("https://www.soundjay.com/button/beep-07.wav");
+        let beepError = new Audio("https://www.soundjay.com/button/beep-10.wav");
+        let beepCorrecto = new Audio("https://www.soundjay.com/button/beep-08.wav");
+
+        // Genera un nuevo conjunto de números aleatorios cada 5 segundos
         function generarNumeros() {
             numerosAleatorios = [
                 (Math.floor(Math.random() * 9000) + 1000).toString(),
                 (Math.floor(Math.random() * 9000) + 1000).toString(),
-                numeroCorrecto,
+                (Math.floor(Math.random() * 9000) + 1000).toString(),
                 (Math.floor(Math.random() * 9000) + 1000).toString(),
                 (Math.floor(Math.random() * 9000) + 1000).toString(),
             ];
-            numerosAleatorios.sort(() => Math.random() - 0.5); // Desordenar los números
+            // Escoger un número aleatorio como el correcto
+            numeroCorrecto = numerosAleatorios[Math.floor(Math.random() * numerosAleatorios.length)];
+            numerosAleatorios.sort(() => Math.random() - 0.5); // Mezclar los números
             document.getElementById("numeros").innerText = numerosAleatorios.join(" ");
+            beepSonido.play(); // Reproducir sonido al cambiar los números
         }
 
         // Verificar si el número ingresado es el correcto
@@ -90,16 +98,18 @@
                 document.getElementById("mensaje-error").style.display = "none";
                 document.getElementById("mensaje-exito").innerText = "Felicidades, toma tus siguientes números: 00110000 00110001";
                 document.getElementById("boton-continuar").style.display = "block"; // Mostrar el botón de continuar
+                beepCorrecto.play(); // Reproducir sonido correcto
             } else {
                 document.getElementById("mensaje-error").innerText = "Combinación incorrecta";
                 document.getElementById("mensaje-exito").innerText = "";
+                beepError.play(); // Reproducir sonido incorrecto
             }
         }
 
         // Iniciar la generación de números al cargar la página
         window.onload = function() {
             generarNumeros();
-            intervalo = setInterval(generarNumeros, 7000); // Cambiar los números cada 7 segundos
+            intervalo = setInterval(generarNumeros, 5000); // Cambiar los números cada 5 segundos
         }
     </script>
 </head>
