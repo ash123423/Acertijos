@@ -12,16 +12,20 @@
             margin: 0;
             padding: 0;
         }
+        .container {
+            display: flex;
+            margin: 50px auto;
+        }
         .terminal {
-            width: 800px;
+            width: 600px;
             height: 600px;
             border: 2px solid white;
             display: flex;
             flex-direction: column;
             padding: 10px;
             box-shadow: 0 0 10px white;
-            margin: 50px auto;
             background-color: black;
+            margin-right: 20px;
         }
         .output {
             flex: 1;
@@ -47,19 +51,48 @@
         .input input::placeholder {
             color: grey;
         }
+        .console {
+            width: 250px;
+            height: 600px;
+            border: 2px solid white;
+            display: flex;
+            flex-direction: column;
+            padding: 10px;
+            box-shadow: 0 0 10px white;
+            background-color: black;
+        }
+        .console-output {
+            flex: 1;
+            overflow-y: auto;
+            border: 1px solid white;
+            padding: 5px;
+            background-color: black;
+        }
+        .console-title {
+            text-align: center;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
-    <div class="terminal">
-        <div class="output" id="output">
-            >>> Bienvenida a tu ultimo acertijo.
+    <div class="container">
+        <div class="terminal">
+            <div class="output" id="output">
+                >>> Bienvenida a tu último acertijo.
+            </div>
+            <div class="input">
+                <input type="text" id="commandInput" placeholder="Escribe tu código aquí..." onkeypress="checkEnter(event)">
+            </div>
         </div>
-        <div class="input">
-            <input type="text" id="commandInput" placeholder="Escribe tu código aquí..." onkeypress="checkEnter(event)">
+        <div class="console">
+            <div class="console-title">Consola</div>
+            <div class="console-output" id="consoleOutput"></div>
         </div>
     </div>
 
     <script>
+        let commandsEntered = 0;
+
         function checkEnter(event) {
             if (event.key === 'Enter') {
                 executeCommand();
@@ -69,6 +102,7 @@
         function executeCommand() {
             const commandInput = document.getElementById('commandInput');
             const output = document.getElementById('output');
+            const consoleOutput = document.getElementById('consoleOutput');
 
             const command = commandInput.value.trim();
             output.innerHTML += '<br/>>> ' + command;
@@ -78,20 +112,29 @@
 
             if (command === 'generar_respuestas(binario)') {
                 response = '00110000 00110010 00111100 00110011';
+                commandsEntered++;
             } else if (command === 'print_normal("00110000 00110110 00110010 00110111 00110000 00110001 00110001 00110000 00110001 00110101 00110000 00110010 00111100 00110011")') {
                 response = '062701101502<3';
+                commandsEntered++;
             } else if (command === 'instrucciones') {
                 response = 'la primera pagina codigo secreto';
+                commandsEntered++;
             } else {
-                response = 'Error';
+                response = 'Error: Comando no reconocido.';
             }
 
-            output.innerHTML += '<br/>' + response;
+            consoleOutput.innerHTML += '<br/>' + response;
+
+            // Mensaje de felicitaciones
+            if (commandsEntered === 3) {
+                consoleOutput.innerHTML += '<br/>Felicidades lograste terminar todos los acertijos';
+            }
 
             // Limpiar el campo de entrada
             commandInput.value = '';
             commandInput.focus();
             output.scrollTop = output.scrollHeight; // Desplazar hacia abajo
+            consoleOutput.scrollTop = consoleOutput.scrollHeight; // Desplazar hacia abajo en consola
         }
     </script>
 </body>
