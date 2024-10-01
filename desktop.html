@@ -6,147 +6,144 @@
     <title>Simulador de Windows XP</title>
     <style>
         body {
-            background-color: #000;
-            color: #fff;
-            font-family: 'Arial', sans-serif;
+            background-color: #008080; /* Color de fondo */
+            color: #000; /* Color de texto */
+            font-family: 'Verdana', sans-serif; /* Tipografía similar a Windows XP */
             overflow: hidden; /* Evita el desplazamiento */
         }
         .window {
-            border: 2px solid #0078D7;
-            background-color: #C0C0C0;
+            border: 2px solid #000080; /* Azul oscuro */
+            background-color: #C0C0C0; /* Gris claro */
             width: 300px;
             position: absolute;
-            z-index: 1;
-            cursor: move; /* Permite mover la ventana */
+            display: none;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+            z-index: 10; /* Asegura que esté por encima de otros elementos */
         }
         .title-bar {
-            background-color: #0078D7;
+            background-color: #000080; /* Azul oscuro para la barra de título */
             color: #fff;
             padding: 5px;
-            font-weight: bold;
-            user-select: none; /* Evita seleccionar texto al mover */
+            cursor: move;
+            user-select: none; /* Evita que se seleccione el texto */
         }
         .content {
             padding: 10px;
-            background-color: #FFF;
-            color: #000;
         }
-        .taskbar {
-            background-color: #0078D7;
-            height: 40px;
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-        }
-        .taskbar button {
-            background-color: #0078D7;
-            color: #FFF;
+        .button {
+            background-color: #000080; /* Botón azul */
+            color: #fff;
             border: none;
-            padding: 10px;
+            padding: 5px 10px;
             cursor: pointer;
+            margin-top: 10px;
+        }
+        .button:hover {
+            background-color: #0000FF; /* Azul más claro al pasar el ratón */
         }
     </style>
 </head>
 <body>
-    <div class="taskbar">
-        <button onclick="abrirBlocNotas()">Bloc de Notas</button>
-        <button onclick="abrirPapelera()">Papelera de reciclaje</button>
-        <button onclick="abrirCandado()">Candado</button>
+
+    <!-- Ventana de Bloc de Notas -->
+    <div class="window" id="notepad">
+        <div class="title-bar" onmousedown="drag(event, 'notepad')">
+            Bloc de Notas
+        </div>
+        <div class="content">
+            <p>Me imagino que estuvo fácil lo del usuario y la contraseña entonces ahora toma esta contraseña y traducela:</p>
+            <p>01101101 01101001 01101110 01101001 11000011 10110001 01100001 01100010 01101111 01101110 01101001 01110100 01100001</p>
+            <button class="button" onclick="openRecycleBin()">Abrir Papelera de Reciclaje</button>
+        </div>
+    </div>
+
+    <!-- Ventana de Papelera de Reciclaje -->
+    <div class="window" id="recycleBin">
+        <div class="title-bar" onmousedown="drag(event, 'recycleBin')">
+            Papelera de Reciclaje
+        </div>
+        <div class="content">
+            <p>Introduce la contraseña para abrir la Papelera de Reciclaje:</p>
+            <input type="password" id="recyclePassword" placeholder="Contraseña" />
+            <button class="button" onclick="checkRecyclePassword()">Acceder</button>
+            <p id="recycleMessage" style="color: red;"></p>
+        </div>
+    </div>
+
+    <!-- Ventana de Consola (CMD) -->
+    <div class="window" id="cmd">
+        <div class="title-bar" onmousedown="drag(event, 'cmd')">
+            Consola
+        </div>
+        <div class="content">
+            <p>Felicidades ya lograste completar este acertijo toma tu código y avanza al siguiente:</p>
+            <p>00110001 00110101</p>
+            <button class="button" onclick="alert('Continuar')">Continuar</button>
+        </div>
     </div>
 
     <script>
-        function abrirBlocNotas() {
-            const ventana = document.createElement('div');
-            ventana.className = 'window';
-            ventana.innerHTML = `
-                <div class="title-bar" onmousedown="drag(event)">Bloc de Notas</div>
-                <div class="content">
-                    <p>Me imagino que estuvo fácil lo del usuario y la contraseña entonces ahora toma esta contraseña y traducela:</p>
-                    <p>01101101 01101001 01101110 01101001 11000011 10110001 01100001 01100010 01101111 01101110 01101001 01110100 01100001</p>
-                </div>
-            `;
-            document.body.appendChild(ventana);
-            ventana.style.top = '50px';
-            ventana.style.left = '50px';
+        // Función para permitir arrastrar las ventanas
+        function drag(e, id) {
+            const windowElement = document.getElementById(id);
+            let pos1 = e.clientX;
+            let pos2 = e.clientY;
+
+            function moveAtMouse() {
+                const pos3 = pos1 - e.clientX;
+                const pos4 = pos2 - e.clientY;
+                pos1 = e.clientX;
+                pos2 = e.clientY;
+                windowElement.style.top = (windowElement.offsetTop - pos4) + "px";
+                windowElement.style.left = (windowElement.offsetLeft - pos3) + "px";
+            }
+
+            document.onmousemove = moveAtMouse;
+            document.onmouseup = function() {
+                document.onmouseup = null;
+                document.onmousemove = null;
+            };
         }
 
-        function abrirPapelera() {
-            const contraseña = prompt("Introduce la contraseña para abrir la Papelera de reciclaje:");
-            if (contraseña === "miniñabonita") {
-                const ventana = document.createElement('div');
-                ventana.className = 'window';
-                ventana.innerHTML = `
-                    <div class="title-bar" onmousedown="drag(event)">Papelera de reciclaje</div>
-                    <div class="content">
-                        <button onclick="abrirArchivo()">Archivo de Bloc de Notas</button>
-                    </div>
-                `;
-                document.body.appendChild(ventana);
-                ventana.style.top = '100px';
-                ventana.style.left = '100px';
+        // Función para abrir la ventana del Bloc de Notas
+        function openNotepad() {
+            const notepad = document.getElementById('notepad');
+            notepad.style.display = 'block';
+            notepad.style.top = '100px';
+            notepad.style.left = '100px';
+        }
+
+        // Función para abrir la Papelera de Reciclaje
+        function openRecycleBin() {
+            const recycleBin = document.getElementById('recycleBin');
+            recycleBin.style.display = 'block';
+            recycleBin.style.top = '150px';
+            recycleBin.style.left = '150px';
+        }
+
+        // Función para verificar la contraseña de la Papelera de Reciclaje
+        function checkRecyclePassword() {
+            const password = document.getElementById('recyclePassword').value;
+            const message = document.getElementById('recycleMessage');
+
+            if (password === 'miniñabonita') {
+                message.textContent = '';
+                openCandado(); // Abre la aplicación de Candado
             } else {
-                alert("Contraseña incorrecta");
+                message.textContent = 'Contraseña incorrecta.';
             }
         }
 
-        function abrirArchivo() {
-            const ventana = document.createElement('div');
-            ventana.className = 'window';
-            ventana.innerHTML = `
-                <div class="title-bar" onmousedown="drag(event)">Archivo de Bloc de Notas</div>
-                <div class="content">
-                    <p>La contraseña del candado es la misma del programa.</p>
-                </div>
-            `;
-            document.body.appendChild(ventana);
-            ventana.style.top = '150px';
-            ventana.style.left = '150px';
+        // Función para abrir la ventana de Candado
+        function openCandado() {
+            const cmd = document.getElementById('cmd');
+            cmd.style.display = 'block';
+            cmd.style.top = '200px';
+            cmd.style.left = '200px';
         }
 
-        function abrirCandado() {
-            const contraseña = prompt("Introduce la contraseña para abrir el candado:");
-            if (contraseña === "27011502") {
-                const ventana = document.createElement('div');
-                ventana.className = 'window';
-                ventana.innerHTML = `
-                    <div class="title-bar" onmousedown="drag(event)">Candado</div>
-                    <div class="content">
-                        <p>Felicidades ya lograste completar este acertijo. Toma tu código y avanza al siguiente: 00110001 00110101</p>
-                        <button onclick="continuar()">Continuar</button>
-                    </div>
-                `;
-                document.body.appendChild(ventana);
-                ventana.style.top = '200px';
-                ventana.style.left = '200px';
-            } else {
-                alert("Contraseña incorrecta");
-            }
-        }
-
-        function continuar() {
-            alert("Has avanzado al siguiente nivel.");
-        }
-
-        // Función para permitir mover las ventanas
-        function drag(event) {
-            const ventana = event.target.parentElement;
-            let offsetX = event.clientX - ventana.getBoundingClientRect().left;
-            let offsetY = event.clientY - ventana.getBoundingClientRect().top;
-
-            function moverVentana(e) {
-                ventana.style.left = e.clientX - offsetX + 'px';
-                ventana.style.top = e.clientY - offsetY + 'px';
-            }
-
-            function soltarVentana() {
-                window.removeEventListener('mousemove', moverVentana);
-                window.removeEventListener('mouseup', soltarVentana);
-            }
-
-            window.addEventListener('mousemove', moverVentana);
-            window.addEventListener('mouseup', soltarVentana);
-        }
+        // Abre el Bloc de Notas al cargar la página
+        window.onload = openNotepad;
     </script>
 </body>
 </html>
