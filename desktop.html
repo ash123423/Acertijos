@@ -1,4 +1,3 @@
-<!-- desktop.html -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -7,121 +6,103 @@
     <title>Escritorio - Windows XP</title>
     <style>
         body {
-            background-image: url('windows_xp_background.jpg'); /* Fondo de pantalla de Windows XP */
-            background-size: cover;
-            font-family: 'Tahoma', sans-serif;
-            color: #000;
-            margin: 0;
+            background-color: #000;
+            color: #fff;
+            font-family: 'Arial', sans-serif; /* Cambiar a una fuente similar a Windows XP */
+            margin: 0; /* Eliminar márgenes para evitar scroll */
+            overflow: hidden; /* Deshabilitar el scroll */
         }
         .taskbar {
-            background-color: #0078D7;
-            height: 30px;
             position: absolute;
             bottom: 0;
-            width: 100%;
-            color: #fff;
+            left: 0;
+            right: 0;
+            height: 40px;
+            background-color: #555; /* Color de la barra de tareas */
             display: flex;
             align-items: center;
             padding-left: 10px;
+            box-shadow: 0 -2px 5px rgba(255, 255, 255, 0.2);
+        }
+        .taskbar button {
+            background-color: #777; /* Color de los botones de la barra de tareas */
+            border: none;
+            color: white;
+            padding: 5px 10px;
+            margin-right: 10px;
+            cursor: pointer;
         }
         .window {
-            background-color: #ffffff;
-            border: 2px solid #000;
-            border-radius: 5px;
-            box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.5);
-            padding: 20px;
             width: 300px;
-            margin: 20px;
-            position: relative;
-            display: none; /* Ocultar ventanas inicialmente */
+            height: 200px;
+            border: 2px solid #fff;
+            background-color: #222;
+            position: absolute;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            z-index: 1;
         }
-        .button {
-            background-color: #0078D7;
-            color: #ffffff;
-            border: none;
+        .window-title {
+            background-color: #333;
+            padding: 5px;
+            cursor: move;
+        }
+        .window-content {
             padding: 10px;
-            border-radius: 3px;
-            cursor: pointer;
-            margin-top: 10px;
         }
-        .button:hover {
-            background-color: #005499;
+        .recycle-bin {
+            position: absolute;
+            top: 50px;
+            left: 50px;
+        }
+        .lock-app {
+            position: absolute;
+            top: 50px;
+            left: 400px;
         }
     </style>
 </head>
 <body>
+    <div class="window" id="recycleBin" style="display: none;">
+        <div class="window-title">Papelera de reciclaje</div>
+        <div class="window-content">
+            <p>Contenidos de la Papelera de reciclaje.</p>
+            <button onclick="cerrarVentana('recycleBin')">Cerrar</button>
+        </div>
+    </div>
+
+    <div class="window" id="lockApp" style="display: none;">
+        <div class="window-title">Candado</div>
+        <div class="window-content">
+            <p>Ingrese la contraseña:</p>
+            <input type="password" id="password" placeholder="Contraseña">
+            <button onclick="verificarContraseña()">Acceder</button>
+            <button onclick="cerrarVentana('lockApp')">Cerrar</button>
+        </div>
+    </div>
 
     <div class="taskbar">
-        <div onclick="openNotepad()" class="button">Bloc de notas</div>
-        <div onclick="openRecycleBin()" class="button">Papelera de reciclaje</div>
-        <div onclick="openLockApp()" class="button">Aplicación de candado</div>
-    </div>
-
-    <div id="notepad" class="window">
-        <h3>Bloc de notas</h3>
-        <p>Me imagino que estuvo facil lo del usuario y la contraseña entonces ahora toma esta contraseña y traducela 01101101 01101001 01101110 01101001 11000011 10110001 01100001 01100010 01101111 01101110 01101001 01110100 01100001</p>
-        <button class="button" onclick="closeWindow('notepad')">Cerrar</button>
-    </div>
-
-    <div id="recycleBin" class="window">
-        <h3>Papelera de reciclaje</h3>
-        <label for="recyclePassword">Contraseña:</label>
-        <input type="password" id="recyclePassword" />
-        <button class="button" onclick="checkRecyclePassword()">Abrir</button>
-        <p id="recycleMessage"></p>
-        <button class="button" onclick="closeWindow('recycleBin')">Cerrar</button>
-    </div>
-
-    <div id="lockApp" class="window">
-        <h3>Aplicación de candado</h3>
-        <label for="lockPassword">Contraseña:</label>
-        <input type="password" id="lockPassword" />
-        <button class="button" onclick="checkLockPassword()">Abrir</button>
-        <p id="lockMessage"></p>
-        <button class="button" onclick="closeWindow('lockApp')">Cerrar</button>
+        <button onclick="abrirVentana('recycleBin')">Papelera de reciclaje</button>
+        <button onclick="abrirVentana('lockApp')">Candado</button>
     </div>
 
     <script>
-        function openNotepad() {
-            document.getElementById('notepad').style.display = 'block';
+        function abrirVentana(ventana) {
+            document.getElementById(ventana).style.display = 'block';
         }
 
-        function checkRecyclePassword() {
-            const password = document.getElementById('recyclePassword').value;
-            if (password === 'tu_contraseña') { // Cambia 'tu_contraseña' por la contraseña deseada
-                alert('Abriendo Papelera de reciclaje');
-                // Agrega aquí el contenido que desees mostrar al abrir la papelera
-            } else {
-                document.getElementById('recycleMessage').innerText = 'Contraseña incorrecta';
-            }
+        function cerrarVentana(ventana) {
+            document.getElementById(ventana).style.display = 'none';
         }
 
-        function checkLockPassword() {
-            const password = document.getElementById('lockPassword').value;
+        function verificarContraseña() {
+            const password = document.getElementById('password').value;
             if (password === '27011502') {
-                alert('Abriendo la aplicación de candado');
-                // Lógica para abrir la ventana "Felicidades"
-                openCongratulations();
+                alert('Acceso concedido.');
+                // Aquí puedes agregar más funcionalidad al acceso
             } else {
-                document.getElementById('lockMessage').innerText = 'Contraseña incorrecta';
+                alert('Contraseña incorrecta.');
             }
-        }
-
-        function openCongratulations() {
-            const congratsWindow = document.createElement('div');
-            congratsWindow.className = 'window';
-            congratsWindow.innerHTML = `
-                <h3>Felicidades</h3>
-                <p>Ya lograste completar este acertijo toma tu código y avanza al siguiente 00110001 00110101</p>
-                <button class="button" onclick="closeWindow('congratsWindow')">Continuar</button>
-            `;
-            document.body.appendChild(congratsWindow);
-        }
-
-        function closeWindow(id) {
-            document.getElementById(id).style.display = 'none';
         }
     </script>
-
 </body>
 </html>
