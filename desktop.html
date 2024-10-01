@@ -3,154 +3,161 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simulación de Linux</title>
+    <title>Simulador de Linux</title>
     <style>
         body {
-            background-color: #2c2c2c; /* Fondo oscuro */
+            margin: 0;
+            background-color: #2C2C2C;
+            font-family: 'Arial', sans-serif;
             color: white;
-            font-family: 'Courier New', monospace;
-            overflow: hidden; /* Desactivar el scroll */
+            overflow: hidden;
+        }
+        .taskbar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 30px;
+            background-color: #1A1A1A;
+            display: flex;
+            align-items: center;
+            padding: 0 10px;
+            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.5);
         }
         .window {
-            width: 300px;
-            border: 1px solid #333;
-            background-color: #1c1c1c;
             position: absolute;
+            background-color: #3E3E3E;
+            border: 2px solid #1A1A1A;
+            border-radius: 5px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-            display: none; /* Ocultar por defecto */
+            display: none;
         }
-        .title-bar {
-            background-color: #3b3b3b;
+        .header {
+            background-color: #1A1A1A;
+            color: white;
             padding: 5px;
-            cursor: move; /* Mover ventanas */
+            cursor: move;
         }
         .content {
             padding: 10px;
-            font-size: 14px;
         }
         .button {
-            background-color: #444;
+            background-color: #4CAF50;
             color: white;
             border: none;
             padding: 5px 10px;
             cursor: pointer;
         }
         .button:hover {
-            background-color: #555;
+            background-color: #45a049;
         }
-        .taskbar {
-            background-color: #3b3b3b;
-            height: 40px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 10px;
-            position: absolute;
-            bottom: 0;
-            width: 100%;
-        }
-        .task {
-            margin: 0 10px;
-            cursor: pointer;
+        #cmd {
+            display: none;
         }
     </style>
 </head>
 <body>
-
-<div class="taskbar">
-    <div class="task" onclick="openWindow('notepad')">Bloc de notas</div>
-    <div class="task" onclick="openWindow('recycleBin')">Papelera de reciclaje</div>
-    <div class="task" onclick="openWindow('lock')">Candado</div>
-</div>
-
-<div class="window" id="notepad">
-    <div class="title-bar">Bloc de notas</div>
-    <div class="content">
-        Me imagino que estuvo fácil lo del usuario y la contraseña, entonces ahora toma esta contraseña y traducela:
-        <br><br>
-        <code>01101101 01101001 01101110 01101001 11000011 10110001 01100001 01100010 01101111 01101110 01101001 01110100 01100001</code>
+    <div class="taskbar">
+        <div id="notepad-button" class="app-button">Bloc de Notas</div>
+        <div id="recycle-bin-button" class="app-button">Papelera de Reciclaje</div>
+        <div id="lock-button" class="app-button">Candado</div>
     </div>
-</div>
 
-<div class="window" id="recycleBin">
-    <div class="title-bar">Papelera de reciclaje</div>
-    <div class="content">
-        <input type="text" id="recyclePass" placeholder="Contraseña" />
-        <button class="button" onclick="checkRecyclePass()">Acceder</button>
-        <div id="recycleMessage"></div>
+    <div id="notepad" class="window">
+        <div class="header">Bloc de Notas</div>
+        <div class="content">
+            <p>Me imagino que estuvo facil lo del usuario y la contraseña entonces ahora toma esta contraseña y traducela 01101101 01101001 01101110 01101001 11000011 10110001 01100001 01100010 01101111 01101110 01101001 01110100 01100001</p>
+        </div>
     </div>
-</div>
 
-<div class="window" id="lock">
-    <div class="title-bar">Candado</div>
-    <div class="content">
-        <input type="text" id="lockPass" placeholder="Contraseña" />
-        <button class="button" onclick="checkLockPass()">Acceder</button>
-        <div id="lockMessage"></div>
+    <div id="recycle-bin" class="window">
+        <div class="header">Papelera de Reciclaje</div>
+        <div class="content">
+            <input type="text" id="recycle-password" placeholder="Escribe la contraseña">
+            <button class="button" id="access-button">Acceder</button>
+            <p id="recycle-message"></p>
+        </div>
     </div>
-</div>
 
-<div class="window" id="cmd">
-    <div class="title-bar">Consola</div>
-    <div class="content">
-        <pre>Felicidades, ya lograste completar este acertijo. Toma tu código y avanza al siguiente: 00110001 00110101</pre>
-        <button class="button" onclick="closeCmd()">Continuar</button>
+    <div id="cmd" class="window">
+        <div class="header">Consola</div>
+        <div class="content">
+            <p>Felicidades ya lograste completar este acertijo toma tu codigo y avanza al siguiente 00110001 00110101</p>
+            <button class="button" id="continue-button">Continuar</button>
+        </div>
     </div>
-</div>
 
-<script>
-    // Funciones para abrir y cerrar ventanas
-    function openWindow(id) {
-        document.querySelectorAll('.window').forEach(win => win.style.display = 'none');
-        document.getElementById(id).style.display = 'block';
-    }
+    <script>
+        const notepadButton = document.getElementById('notepad-button');
+        const recycleBinButton = document.getElementById('recycle-bin-button');
+        const lockButton = document.getElementById('lock-button');
 
-    function closeCmd() {
-        document.getElementById('cmd').style.display = 'none';
-    }
+        const notepad = document.getElementById('notepad');
+        const recycleBin = document.getElementById('recycle-bin');
+        const cmd = document.getElementById('cmd');
 
-    // Validación de contraseñas
-    function checkRecyclePass() {
-        const pass = document.getElementById('recyclePass').value;
-        const message = document.getElementById('recycleMessage');
-        if (pass === 'miniñabonita') {
-            message.innerHTML = 'Acceso concedido';
-            openWindow('cmd'); // Abre la consola
-        } else {
-            message.innerHTML = 'Contraseña incorrecta';
-        }
-    }
+        notepadButton.onclick = () => {
+            notepad.style.display = 'block';
+            moveWindow(notepad);
+        };
 
-    function checkLockPass() {
-        const pass = document.getElementById('lockPass').value;
-        const message = document.getElementById('lockMessage');
-        if (pass === '27011502') {
-            message.innerHTML = 'Acceso concedido';
-            // Aquí puedes agregar la acción deseada al abrir el candado
-        } else {
-            message.innerHTML = 'Contraseña incorrecta';
-        }
-    }
+        recycleBinButton.onclick = () => {
+            recycleBin.style.display = 'block';
+            moveWindow(recycleBin);
+        };
 
-    // Funcionalidad para mover ventanas
-    let isDragging = false;
-    let offsetX, offsetY;
+        lockButton.onclick = () => {
+            const password = prompt('Introduce la contraseña del candado:');
+            if (password === '27011502') {
+                cmd.style.display = 'block';
+                moveWindow(cmd);
+            } else {
+                alert('Contraseña incorrecta');
+            }
+        };
 
-    document.querySelectorAll('.title-bar').forEach(bar => {
-        bar.onmousedown = function(e) {
-            isDragging = true;
-            offsetX = e.clientX - bar.parentElement.offsetLeft;
-            offsetY = e.clientY - bar.parentElement.offsetTop;
-            document.onmouseup = () => isDragging = false;
-            document.onmousemove = (event) => {
-                if (isDragging) {
-                    bar.parentElement.style.left = (event.clientX - offsetX) + 'px';
-                    bar.parentElement.style.top = (event.clientY - offsetY) + 'px';
+        document.getElementById('access-button').onclick = () => {
+            const passwordInput = document.getElementById('recycle-password').value;
+            if (passwordInput === 'miniñabonita') {
+                recycleBin.style.display = 'none';
+                alert('Acceso concedido a la Papelera de Reciclaje.');
+                // Aquí podrías abrir un archivo o mostrar un mensaje adicional.
+                cmd.style.display = 'block';
+                moveWindow(cmd);
+            } else {
+                document.getElementById('recycle-message').innerText = 'Contraseña incorrecta.';
+            }
+        };
+
+        document.getElementById('continue-button').onclick = () => {
+            window.location.href = 'https://ash123423.github.io/Acertijos/acertijo_7-112.html';
+        };
+
+        function moveWindow(windowElement) {
+            let isMoving = false;
+            let offsetX, offsetY;
+
+            windowElement.querySelector('.header').onmousedown = (e) => {
+                isMoving = true;
+                offsetX = e.clientX - windowElement.getBoundingClientRect().left;
+                offsetY = e.clientY - windowElement.getBoundingClientRect().top;
+            };
+
+            windowElement.onmousemove = (e) => {
+                if (isMoving) {
+                    windowElement.style.left = (e.clientX - offsetX) + 'px';
+                    windowElement.style.top = (e.clientY - offsetY) + 'px';
                 }
             };
-        };
-    });
-</script>
 
+            windowElement.onmouseup = () => {
+                isMoving = false;
+            };
+
+            windowElement.onmouseleave = () => {
+                isMoving = false;
+            };
+        }
+    </script>
 </body>
 </html>
