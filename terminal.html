@@ -13,8 +13,8 @@
             padding: 0;
         }
         .terminal {
-            width: 600px;
-            height: 400px;
+            width: 800px;
+            height: 600px;
             border: 2px solid white;
             display: flex;
             flex-direction: column;
@@ -33,9 +33,9 @@
         .input {
             display: flex;
             align-items: center;
-            margin-top: 10px;
             border: 1px solid white;
             padding: 5px;
+            margin-top: 10px;
         }
         .input input {
             flex: 1;
@@ -47,28 +47,25 @@
         .input input::placeholder {
             color: grey;
         }
-        .input button {
-            background-color: white;
-            color: black;
-            border: none;
-            cursor: pointer;
-            margin-left: 10px;
-            padding: 5px 10px;
-        }
     </style>
 </head>
 <body>
     <div class="terminal">
         <div class="output" id="output">
-            Bienvenido a la terminal. Escribe un comando y presiona "Ejecutar".
+            Bienvenido a la terminal. Escribe tu comando y presiona Enter.
         </div>
         <div class="input">
-            <input type="text" id="commandInput" placeholder="Escribe tu comando aquí...">
-            <button onclick="executeCommand()">Ejecutar</button>
+            <input type="text" id="commandInput" placeholder="Escribe tu comando aquí..." onkeypress="checkEnter(event)">
         </div>
     </div>
 
     <script>
+        function checkEnter(event) {
+            if (event.key === 'Enter') {
+                executeCommand();
+            }
+        }
+
         function executeCommand() {
             const commandInput = document.getElementById('commandInput');
             const output = document.getElementById('output');
@@ -76,9 +73,18 @@
             const command = commandInput.value;
             output.innerHTML += '<br/>$ ' + command;
 
+            // Ejecutar comando de print
+            if (command.startsWith('print(') && command.endsWith(')')) {
+                const content = command.slice(6, -1); // Extraer el contenido entre print() 
+                output.innerHTML += '<br/>' + content;
+            } else {
+                output.innerHTML += '<br/>Error: comando no reconocido';
+            }
+
             // Limpiar el campo de entrada
             commandInput.value = '';
             commandInput.focus();
+            output.scrollTop = output.scrollHeight; // Desplazar hacia abajo
         }
     </script>
 </body>
