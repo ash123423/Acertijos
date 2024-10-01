@@ -3,131 +3,149 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Escritorio - Windows XP</title>
+    <title>Simulador de Windows XP</title>
     <style>
         body {
             background-color: #000;
             color: #fff;
             font-family: 'Arial', sans-serif;
-            overflow: hidden; /* Evitar el scroll */
-            margin: 0;
-        }
-        .taskbar {
-            position: fixed;
-            bottom: 0;
-            height: 30px;
-            background-color: #2b2b2b;
-            width: 100%;
-            border-top: 2px solid #fff;
-            display: flex;
-            align-items: center;
-            padding-left: 10px;
-            color: white;
+            overflow: hidden; /* Evita el desplazamiento */
         }
         .window {
-            position: absolute;
-            background-color: #e3e3e3;
-            border: 2px solid #000;
-            padding: 10px;
+            border: 2px solid #0078D7;
+            background-color: #C0C0C0;
             width: 300px;
-            height: 200px;
-            box-shadow: 2px 2px 5px #888;
-            cursor: move;
+            position: absolute;
+            z-index: 1;
+            cursor: move; /* Permite mover la ventana */
         }
-        .window-header {
-            background-color: #0000ff;
+        .title-bar {
+            background-color: #0078D7;
             color: #fff;
             padding: 5px;
-            cursor: move;
+            font-weight: bold;
+            user-select: none; /* Evita seleccionar texto al mover */
         }
-        .hidden-file {
-            display: none;
-        }
-        .button {
-            background-color: #fff;
+        .content {
+            padding: 10px;
+            background-color: #FFF;
             color: #000;
+        }
+        .taskbar {
+            background-color: #0078D7;
+            height: 40px;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+        }
+        .taskbar button {
+            background-color: #0078D7;
+            color: #FFF;
             border: none;
+            padding: 10px;
             cursor: pointer;
-            padding: 5px;
-            width: 100%;
-            margin-top: 10px;
         }
     </style>
 </head>
 <body>
-
-    <div class="window" id="notepad" style="top: 50px; left: 50px;">
-        <div class="window-header">Bloc de notas</div>
-        <p>Me imagino que estuvo fácil lo del usuario y la contraseña, entonces ahora toma esta contraseña y tradúcela: <br>
-            <strong>01101101 01101001 01101110 01101001 11000011 10110001 01100001 01100010 01101111 01101110 01101001 01110100 01100001</strong>
-        </p>
-        <button class="button" onclick="openRecycleBin()">Abrir Papelera de reciclaje</button>
-    </div>
-
-    <div class="window hidden-file" id="recycleBin" style="top: 100px; left: 400px;">
-        <div class="window-header">Papelera de reciclaje</div>
-        <p>Ingrese contraseña para abrir:</p>
-        <input type="text" id="recyclePassword" placeholder="Contraseña">
-        <button class="button" onclick="checkRecyclePassword()">Acceder</button>
-        <div class="hidden-file" id="notepadInRecycleBin" style="display:none;">
-            <p>La contraseña del candado es la misma del programa.</p>
-            <button class="button" onclick="openLock()">Abrir candado</button>
-        </div>
-    </div>
-
     <div class="taskbar">
-        <span>Inicio</span>
+        <button onclick="abrirBlocNotas()">Bloc de Notas</button>
+        <button onclick="abrirPapelera()">Papelera de reciclaje</button>
+        <button onclick="abrirCandado()">Candado</button>
     </div>
 
     <script>
-        function openRecycleBin() {
-            document.getElementById('recycleBin').style.display = 'block';
+        function abrirBlocNotas() {
+            const ventana = document.createElement('div');
+            ventana.className = 'window';
+            ventana.innerHTML = `
+                <div class="title-bar" onmousedown="drag(event)">Bloc de Notas</div>
+                <div class="content">
+                    <p>Me imagino que estuvo fácil lo del usuario y la contraseña entonces ahora toma esta contraseña y traducela:</p>
+                    <p>01101101 01101001 01101110 01101001 11000011 10110001 01100001 01100010 01101111 01101110 01101001 01110100 01100001</p>
+                </div>
+            `;
+            document.body.appendChild(ventana);
+            ventana.style.top = '50px';
+            ventana.style.left = '50px';
         }
 
-        function checkRecyclePassword() {
-            const password = document.getElementById('recyclePassword').value;
-            if (password === 'miniñabonita') {
-                document.getElementById('notepadInRecycleBin').style.display = 'block';
-                alert("Acceso concedido a la Papelera de reciclaje.");
+        function abrirPapelera() {
+            const contraseña = prompt("Introduce la contraseña para abrir la Papelera de reciclaje:");
+            if (contraseña === "miniñabonita") {
+                const ventana = document.createElement('div');
+                ventana.className = 'window';
+                ventana.innerHTML = `
+                    <div class="title-bar" onmousedown="drag(event)">Papelera de reciclaje</div>
+                    <div class="content">
+                        <button onclick="abrirArchivo()">Archivo de Bloc de Notas</button>
+                    </div>
+                `;
+                document.body.appendChild(ventana);
+                ventana.style.top = '100px';
+                ventana.style.left = '100px';
             } else {
-                alert("Contraseña incorrecta.");
+                alert("Contraseña incorrecta");
             }
         }
 
-        function openLock() {
-            alert("Felicidades ya lograste completar este acertijo toma tu código y avanza al siguiente 00110001 00110101");
+        function abrirArchivo() {
+            const ventana = document.createElement('div');
+            ventana.className = 'window';
+            ventana.innerHTML = `
+                <div class="title-bar" onmousedown="drag(event)">Archivo de Bloc de Notas</div>
+                <div class="content">
+                    <p>La contraseña del candado es la misma del programa.</p>
+                </div>
+            `;
+            document.body.appendChild(ventana);
+            ventana.style.top = '150px';
+            ventana.style.left = '150px';
+        }
+
+        function abrirCandado() {
+            const contraseña = prompt("Introduce la contraseña para abrir el candado:");
+            if (contraseña === "27011502") {
+                const ventana = document.createElement('div');
+                ventana.className = 'window';
+                ventana.innerHTML = `
+                    <div class="title-bar" onmousedown="drag(event)">Candado</div>
+                    <div class="content">
+                        <p>Felicidades ya lograste completar este acertijo. Toma tu código y avanza al siguiente: 00110001 00110101</p>
+                        <button onclick="continuar()">Continuar</button>
+                    </div>
+                `;
+                document.body.appendChild(ventana);
+                ventana.style.top = '200px';
+                ventana.style.left = '200px';
+            } else {
+                alert("Contraseña incorrecta");
+            }
+        }
+
+        function continuar() {
+            alert("Has avanzado al siguiente nivel.");
         }
 
         // Función para permitir mover las ventanas
-        dragElement(document.getElementById("notepad"));
-        dragElement(document.getElementById("recycleBin"));
+        function drag(event) {
+            const ventana = event.target.parentElement;
+            let offsetX = event.clientX - ventana.getBoundingClientRect().left;
+            let offsetY = event.clientY - ventana.getBoundingClientRect().top;
 
-        function dragElement(el) {
-            let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-            el.onmousedown = dragMouseDown;
-
-            function dragMouseDown(e) {
-                e = e || window.event;
-                pos3 = e.clientX;
-                pos4 = e.clientY;
-                document.onmouseup = closeDragElement;
-                document.onmousemove = elementDrag;
+            function moverVentana(e) {
+                ventana.style.left = e.clientX - offsetX + 'px';
+                ventana.style.top = e.clientY - offsetY + 'px';
             }
 
-            function elementDrag(e) {
-                e = e || window.event;
-                pos1 = pos3 - e.clientX;
-                pos2 = pos4 - e.clientY;
-                pos3 = e.clientX;
-                pos4 = e.clientY;
-                el.style.top = (el.offsetTop - pos2) + "px";
-                el.style.left = (el.offsetLeft - pos1) + "px";
+            function soltarVentana() {
+                window.removeEventListener('mousemove', moverVentana);
+                window.removeEventListener('mouseup', soltarVentana);
             }
 
-            function closeDragElement() {
-                document.onmouseup = null;
-                document.onmousemove = null;
-            }
+            window.addEventListener('mousemove', moverVentana);
+            window.addEventListener('mouseup', soltarVentana);
         }
     </script>
 </body>
