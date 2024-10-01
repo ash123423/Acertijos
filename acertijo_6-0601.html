@@ -42,26 +42,22 @@
         button:hover {
             background-color: #ccc;
         }
-        /* Estilo para el botón invisible */
-        .invisible-button {
-            position: relative;
-            left: -100px; /* 100 píxeles a la izquierda */
-            width: 100px; /* Tamaño del área clickeable */
-            height: 40px; /* Altura del área clickeable */
-            background: transparent; /* Invisible */
-            border: none;
+        /* Estilo para el texto "Iniciar sesión" como botón secreto */
+        .secret-button {
             cursor: pointer;
+            color: #00f; /* Color del texto para indicar que es clickeable */
+            text-decoration: underline; /* Subrayar para hacerlo más visible */
+            margin-bottom: 20px; /* Espacio entre el texto y el resto del contenido */
         }
     </style>
 </head>
 <body>
     <div class="login-container">
-        <h2>Iniciar sesión</h2>
+        <span class="secret-button" onclick="mostrarCredenciales()">Iniciar sesión</span> <!-- Texto como botón secreto -->
         <label for="usuario">Usuario:</label>
         <input type="text" id="usuario" placeholder="Usuario" required>
         <label for="contraseña">Contraseña:</label>
         <input type="password" id="contraseña" placeholder="Contraseña" required>
-        <button class="invisible-button" onclick="mostrarCredenciales()"></button> <!-- Botón invisible -->
         <button onclick="iniciarSesion()">Acceder</button>
     </div>
 
