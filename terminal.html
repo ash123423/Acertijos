@@ -52,7 +52,7 @@
 <body>
     <div class="terminal">
         <div class="output" id="output">
-            >>> Bienvenida a la terminal este es tu ultimo acertijo.
+            >>> Bienvenida a tu ultimo acertijo.
         </div>
         <div class="input">
             <input type="text" id="commandInput" placeholder="Escribe tu código aquí..." onkeypress="checkEnter(event)">
@@ -70,16 +70,23 @@
             const commandInput = document.getElementById('commandInput');
             const output = document.getElementById('output');
 
-            const command = commandInput.value;
+            const command = commandInput.value.trim();
             output.innerHTML += '<br/>>> ' + command;
 
-            // Ejecutar código de Python
-            try {
-                const result = eval(command); // Utiliza eval para ejecutar el código
-                output.innerHTML += '<br/>' + result;
-            } catch (error) {
-                output.innerHTML += '<br/>Error: ' + error.message;
+            // Respuestas predefinidas
+            let response = '';
+
+            if (command === 'generar_respuestas(binario)') {
+                response = '00110000 00110010 00111100 00110011';
+            } else if (command === 'print_normal("00110000 00110110 00110010 00110111 00110000 00110001 00110001 00110000 00110001 00110101 00110000 00110010 00111100 00110011")') {
+                response = '062701101502<3';
+            } else if (command === 'instrucciones') {
+                response = 'la primera pagina codigo secreto';
+            } else {
+                response = 'Error';
             }
+
+            output.innerHTML += '<br/>' + response;
 
             // Limpiar el campo de entrada
             commandInput.value = '';
