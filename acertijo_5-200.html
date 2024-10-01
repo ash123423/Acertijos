@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acertijo 5</title>
+    <style>
+        body {
+            background-color: black; /* Fondo negro */
+            color: white; /* Texto blanco */
+            font-family: Arial, sans-serif; /* Fuente */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh; /* Altura de la ventana */
+            flex-direction: column; /* Colocar texto y botón en columna */
+            margin: 0; /* Sin márgenes */
+            text-align: center; /* Centrando el texto */
+        }
+        input[type="text"] {
+            padding: 10px;
+            font-size: 18px;
+            margin-top: 10px;
+            border: 1px solid white; /* Borde blanco */
+            background-color: #333; /* Fondo gris oscuro */
+            color: white; /* Texto blanco */
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 20px; /* Espaciado del botón */
+            font-size: 18px; /* Tamaño de la fuente */
+            background-color: #555; /* Fondo del botón */
+            color: white; /* Texto del botón */
+            border: none; /* Sin borde */
+            border-radius: 5px; /* Esquinas redondeadas */
+            cursor: pointer; /* Cursor tipo mano */
+            margin-top: 10px; /* Espacio encima del botón */
+        }
+        button:hover {
+            background-color: #777; /* Fondo del botón al pasar el mouse */
+        }
+    </style>
+</head>
+<body>
+    <h1 id="pregunta">La suma de los días multiplicado por el mes</h1>
+    <input type="text" id="respuesta" placeholder="Escribe tu respuesta aquí">
+    <button onclick="verificarRespuesta()">Continuar</button>
+
+    <script>
+        let intento = 1;
+
+        function verificarRespuesta() {
+            var respuesta = document.getElementById("respuesta").value;
+            var pregunta = document.getElementById("pregunta");
+
+            if (intento === 1) {
+                if (respuesta === "33") {
+                    mostrarMensajeFinal();
+                } else {
+                    intento++;
+                    pregunta.innerText = "La suma de nuestras iniciales multiplicado por nuestro día";
+                    document.getElementById("respuesta").value = ""; // Limpiar la caja de texto
+                }
+            } else if (intento === 2) {
+                if (respuesta === "255") {
+                    mostrarMensajeFinal();
+                } else {
+                    intento++;
+                    pregunta.innerText = "La suma de nuestros colores favoritos en HEX (pon todos los números completos)";
+                    document.getElementById("respuesta").value = ""; // Limpiar la caja de texto
+                }
+            } else if (intento === 3) {
+                if (respuesta === "000000") {
+                    mostrarMensajeFinal();
+                } else {
+                    alert("Respuesta incorrecta. Reiniciando...");
+                    intento = 1;
+                    pregunta.innerText = "La suma de los días multiplicado por el mes";
+                    document.getElementById("respuesta").value = ""; // Limpiar la caja de texto
+                }
+            }
+        }
+
+        function mostrarMensajeFinal() {
+            // Limpiar todo y mostrar el mensaje final
+            document.getElementById("pregunta").innerText = "00110001 00110000 ten tus otras dos palabras y no olvides anotarlas";
+            document.getElementById("respuesta").style.display = "none"; // Ocultar la caja de texto
+            document.querySelector("button").style.display = "none"; // Ocultar el botón de continuar
+            mostrarBotonContinuar(); // Mostrar el botón de continuar
+        }
+
+        function mostrarBotonContinuar() {
+            const continuarButton = document.createElement("button");
+            continuarButton.innerText = "Continuar";
+            continuarButton.onclick = function() {
+                window.location.href = "acertijo_6-0601.html"; // Redirigir a la siguiente página
+            };
+            document.body.appendChild(continuarButton);
+        }
+    </script>
+</body>
+</html>
