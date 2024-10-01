@@ -3,50 +3,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nueva Página</title>
+    <title>Página con Caja de Texto</title>
     <style>
         body {
-            font-family: 'Arial', sans-serif; /* Asegúrate de usar la tipografía que prefieres */
-            background-color: black; /* Fondo negro */
-            color: white; /* Texto blanco */
-            text-align: center; /* Centrar el texto */
-            padding: 50px; /* Espaciado */
+            font-family: 'Arial', sans-serif; /* Cambiar a una fuente que se asemeje a Windows XP */
+            background-color: #ffffff;
+            color: #000000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
         }
-        .caja-texto {
-            margin-top: 20px; /* Margen superior */
+        .container {
+            text-align: center;
         }
         input[type="text"] {
-            padding: 10px; /* Espaciado dentro de la caja de texto */
-            font-size: 16px; /* Tamaño de la fuente */
-            width: 300px; /* Ancho de la caja de texto */
+            width: 300px;
+            padding: 10px;
+            margin: 20px 0;
+            border: 1px solid #000000;
+            border-radius: 5px;
         }
         button {
-            padding: 10px; /* Espaciado dentro del botón */
-            font-size: 16px; /* Tamaño de la fuente */
-            margin-top: 10px; /* Margen superior */
-            cursor: pointer; /* Cursor de mano */
+            padding: 10px 20px;
+            background-color: #0084ff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #005bb5;
         }
     </style>
 </head>
 <body>
-
-    <h1>Título de la Página</h1> <!-- Título de la página -->
-    
-    <div class="caja-texto">
-        <input type="text" id="entrada" placeholder="Ingresa tu texto aquí"> <!-- Caja de texto -->
-        <button onclick="continuar()">Continuar</button> <!-- Botón de continuar -->
+    <div class="container">
+        <h1>Ingrese la Contraseña</h1>
+        <input type="text" placeholder="Contraseña" id="password">
+        <button onclick="checkPassword()">Continuar</button>
     </div>
 
     <script>
-        function continuar() {
-            const entrada = document.getElementById('entrada').value; // Obtener el valor de la caja de texto
-            if (entrada) {
-                // Acción a tomar al continuar (puedes modificar esto según tus necesidades)
-                alert('Has ingresado: ' + entrada); // Mostrar un mensaje con el texto ingresado
-                // Redirigir a otra página si es necesario
-                // window.location.href = 'siguiente_pagina.html'; // Descomentar y poner la URL deseada
+        function checkPassword() {
+            const password = document.getElementById('password').value;
+            if (password) {
+                alert('Contraseña ingresada: ' + password);
+                // Aquí puedes redirigir a otra página si es necesario
+                // window.location.href = 'nueva_pagina.html';
             } else {
-                alert('Por favor, ingresa un texto.'); // Mensaje si la caja de texto está vacía
+                alert('Por favor ingresa una contraseña.');
             }
         }
     </script>
