@@ -38,23 +38,38 @@
             animation: slideIn 0.5s; /* Animación de entrada */
         }
         .reloj {
-            font-size: 20px;
             position: absolute;
             top: 10px;
             right: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: white;
+            padding: 10px;
+            border: 2px solid black;
+            border-radius: 5px;
+            animation: slideIn 0.5s; /* Animación de entrada */
         }
         .caja-fuerte {
-            width: 80px;
-            height: 80px;
-            background-color: white;
             position: absolute;
             top: 50px;
             left: 160px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             cursor: pointer;
             animation: bounce 0.5s; /* Animación de rebote */
+            display: none; /* Oculta la caja fuerte inicialmente */
+        }
+        .caja-fuerte-activada {
+            width: 100px;
+            height: 80px;
+            background-color: white;
+            position: absolute;
+            left: 160px;
+            top: 50px;
+            border: 2px solid black; /* Borde de la caja fuerte */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
         .nota {
             display: none; /* Oculta la nota inicialmente */
@@ -76,6 +91,18 @@
             color: black;
             background-color: white;
             border-radius: 50%;
+        }
+        .boton-confirmar {
+            margin-top: 10px;
+            cursor: pointer;
+            background-color: black;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+        .boton-confirmar:hover {
+            background-color: #444;
         }
         @keyframes slideIn {
             from {
@@ -100,7 +127,10 @@
 </head>
 <body>
     <div class="habitacion">
-        <div class="reloj">11:45 PM</div>
+        <div class="reloj">
+            <div style="font-size: 30px; font-weight: bold;">🕒</div> <!-- Icono de reloj (puedes reemplazarlo por un gráfico pixelado si lo deseas) -->
+            <div>11:45 PM</div>
+        </div>
         <div class="cama" onclick="mostrarNota()">Cama</div>
         <div class="caja-fuerte" onclick="abrirCajaFuerte()">Caja Fuerte</div>
         <div id="nota" class="nota">
@@ -111,6 +141,11 @@
             Puedes pasar a la siguiente página, tus nuevas palabras son 00110001 00110101
             <br><button onclick="continuar()">Continuar</button>
             <div class="cerrar" onclick="cerrarCarta(event)">X</div>
+        </div>
+        <div id="caja-fuerte-activada" class="caja-fuerte-activada" style="display: none;">
+            <input type="text" id="combinacion" placeholder="Ingresa combinación">
+            <button class="boton-confirmar" onclick="verificarCombinacion()">✔</button>
+            <div class="cerrar" onclick="cerrarCajaFuerte(event)">X</div>
         </div>
     </div>
 
@@ -125,12 +160,24 @@
         }
 
         function abrirCajaFuerte() {
-            let combinacion = prompt("Ingresa la combinación (4 dígitos, sin ':'):");
+            document.querySelector(".caja-fuerte").style.display = "none"; // Oculta la caja fuerte original
+            document.getElementById("caja-fuerte-activada").style.display = "flex"; // Muestra la caja fuerte activada
+        }
+
+        function verificarCombinacion() {
+            const combinacion = document.getElementById("combinacion").value;
             if (combinacion === "2345") {
                 document.getElementById("carta").style.display = "block"; // Mostrar la carta
+                document.getElementById("caja-fuerte-activada").style.display = "none"; // Ocultar la caja fuerte activada
             } else {
                 alert("Combinación incorrecta.");
             }
+        }
+
+        function cerrarCajaFuerte(event) {
+            event.stopPropagation(); // Evita que se cierre al hacer clic en el fondo
+            document.getElementById("caja-fuerte-activada").style.display = "none"; // Oculta la caja fuerte activada
+            document.querySelector(".caja-fuerte").style.display = "block"; // Muestra la caja fuerte original
         }
 
         function cerrarCarta(event) {
