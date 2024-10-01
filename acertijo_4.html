@@ -75,6 +75,17 @@
         let beepError = new Audio("https://www.soundjay.com/button/beep-10.wav");
         let beepCorrecto = new Audio("https://www.soundjay.com/button/beep-08.wav");
 
+        // Habilitar los sonidos al interactuar con la página
+        function habilitarSonidos() {
+            beepSonido.play();
+            beepSonido.pause(); // Pausamos inmediatamente para "desbloquear" el audio
+            beepError.play();
+            beepError.pause();
+            beepCorrecto.play();
+            beepCorrecto.pause();
+            document.removeEventListener('click', habilitarSonidos); // Remover el listener después de la primera interacción
+        }
+
         // Genera un nuevo conjunto de números aleatorios cada 5 segundos
         function generarNumeros() {
             numerosAleatorios = [
@@ -111,6 +122,9 @@
             generarNumeros();
             intervalo = setInterval(generarNumeros, 5000); // Cambiar los números cada 5 segundos
         }
+
+        // Agregar listener para habilitar los sonidos cuando el usuario haga clic
+        document.addEventListener('click', habilitarSonidos);
     </script>
 </head>
 <body>
